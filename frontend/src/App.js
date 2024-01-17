@@ -33,7 +33,6 @@ const App = () => {
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/signup" element={<Signup />} />
           <Route path="/privateUserProfile" element={<PrivateUserProfile />} />
-          <Route exact path="/mbtaAlerts" element={<MbtaAlertsPage />} />
         </Routes>
        
 
