@@ -28,7 +28,14 @@ const eventSchema = new mongoose.Schema(
       required: true,
       label: "Capacity",
     },
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment",
+      },
+    ],
   },
+
   { collection: "events" }
 );
 
