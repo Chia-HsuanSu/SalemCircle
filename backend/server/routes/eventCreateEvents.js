@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const Event = require('./models/eventModel');
-const Comment = require('./models/commentModel');
+const Event = require('../models/EventModel');
+const Comment = require('../models/commentModel');
 
 // Create event route
 router.post('/events', async (req, res) => {
   try {
-    const { eventId, eventName, description, dateTime, capacity, Comment} = req.body;
+    const { eventId, eventName, description, dateTime, capacity, Comment } = req.body;
+   
+    //create the event
     const newEvent = new Event({ eventId, eventName, description, dateTime, capacity });
     const savedEvent = await newEvent.save();
 
