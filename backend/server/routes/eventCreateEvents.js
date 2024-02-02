@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Event = require('./models/EventModel');
+const Event = require('../models/EventModel');
 const Comment = require('../models/commentModel');
 
 // Function to generate a random 3-digit number for event ID
