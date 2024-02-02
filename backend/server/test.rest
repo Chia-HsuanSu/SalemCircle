@@ -1,4 +1,4 @@
-POST http://localhost:8080/user/signup
+POST http://localhost:8083/user/signup
 Content-Type: application/json 
 
 {
@@ -9,7 +9,7 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:8080/user/login
+POST http://localhost:8083/user/login
 Content-Type: application/json 
 
 {
@@ -18,7 +18,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:8081/user/getAll
+GET http://localhost:8083/user/getAll
 Content-Type: application/json
 
 ###
@@ -37,14 +37,6 @@ GET  http://localhost:8081/user/getUserById
 Content-Type: application/json 
 
 {
-    "userId" : "635ab8dfc407faf9f73deaf1"
-}
-
-###
-GET  http://localhost:8081/user/getUserById
-Content-Type: application/json 
-
-{
     "userId" : "634edb2a16710b2cda6fb370"
 }
 
@@ -52,4 +44,30 @@ Content-Type: application/json
 POST  http://localhost:8081/user/deleteAll
 
 ###
-POST http://localhost:8083/event/all
+GET  http://localhost:8083/event/all
+
+###
+PUT http://localhost:8083/event/edit/299
+Content-Type: application/json
+
+{
+  "eventName": "ooo",
+  "description": "Edit again2",
+  "dateTime": "2024-01-25T12:00:00Z",
+  "capacity": 100
+}
+
+### // Creating favorite with specific eventID and UserId (objectIDs)
+POST http://localhost:8083/favorites/add
+Content-Type: application/json
+
+{
+  "userId": "63d29626a71c78631383d8d4",
+  "eventId": "65bc5528ca64719df3347e66"
+}
+
+### // Get favorites using User's objectID
+GET http://localhost:8083/favorites/user/63d29626a71c78631383d8d4
+
+### //Delete using Favorite's objectID
+DELETE http://localhost:8083/favorites/delete/65bcb0fbe2c3192bb6bba60e

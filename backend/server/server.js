@@ -10,6 +10,9 @@ const editUser = require('./routes/userEditUser')
 const deleteUser = require('./routes/userDeleteAll')
 const createEvent = require('./routes/eventCreateEvents');
 const getAllEvents = require('./routes/eventGetAllEvents')
+const editEvent = require('./routes/eventEditEvents');
+const deleteEvent = require('./routes/eventDeleteEvents')
+const favEvent = require('./routes/favoriteEvents')
 
 
 require('dotenv').config();
@@ -26,6 +29,9 @@ app.use('/user', editUser)
 app.use('/user', deleteUser)
 app.use('/event', createEvent)
 app.use('/event', getAllEvents)
+app.use('/event', editEvent)
+app.use('/event', deleteEvent)
+app.use('/favorites', favEvent)
 app.listen(SERVER_PORT, (req, res) => {
     console.log(`The backend service is running on port ${SERVER_PORT} and waiting for requests.`);
 })
