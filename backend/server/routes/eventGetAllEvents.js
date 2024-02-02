@@ -3,7 +3,7 @@ const router = express.Router();
 const Event = require('../models/EventModel');
 
 // Get all events
-router.get('/events', async (req, res) => {
+router.get('/all', async (req, res) => {
   try {
     const events = await Event.find();
     res.json(events);
