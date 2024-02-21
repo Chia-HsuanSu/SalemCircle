@@ -12,6 +12,11 @@ const HomePage = () => {
         navigate('/');
     };
 
+    const handleMyEventsClick = (e) => {
+        e.preventDefault();
+        navigate('/viewEventsPage'); // Navigate to ViewEventsPage when My Events button is clicked
+    };
+
     useEffect(() => {
         const userInfo = getUserInfo();
         if (userInfo) {
@@ -34,32 +39,37 @@ const HomePage = () => {
     return (
         <div className="home-container" style={{ backgroundColor: 'lightblue', height: '100vh' }}>
             <div className="header">
-            <img src="/logo.png" alt="Logo" className="logo" width="200" height="200"/>
-
                 <div className="top-buttons" style={{ display: 'flex', justifyContent: 'center' }}>
-                <input type="text" placeholder="Search Events" className="search-bar" style={{ marginRight: '10px' }} />
-                
-                    {/* Salem Circle Description */}
-                    <p style={{ textAlign: 'center', marginBottom: '20px' }}>
-                        Salem, famous for its historical significance, draws countless visitors yearly. Our app, Salem Circle, aims to enhance the city experience. It will feature "Events" - social gathering for entertainment, exploration, and community engagement.
-                    </p>
-
-                    <button style={{ marginRight: '10px' }}>Contact Us</button>
-                    <button style={{ marginRight: '10px' }}>My Favorites</button>
-                    <button style={{ marginRight: '10px' }}>My Events</button>
-                    <button onClick={handleClick}>Log Out</button>
+                    <input type="text" placeholder="Search Events" className="search-bar" style={{ marginRight: '10px', height: '50px' }} />
+                    <button style={{ marginRight: '10px', width: '100px', height: '50px' }}>Contact Us</button>
+                    <img src="/logo.png" alt="Logo" className="logo" width="200" height="100" />
+                    <button style={{ marginRight: '10px', width: '100px', height: '50px' }}>My Favorites</button>
+                    <button onClick={handleMyEventsClick} style={{ marginRight: '10px', width: '100px', height: '50px' }}>My Events</button>
+                    <button onClick={handleClick} style={{ width: '100px', height: '50px' }}>Log Out</button>
                 </div>
-                <input type="text" placeholder="Search Events" className="search-bar" style={{ marginRight: '10px' }} />
-                    {/* Salem Circle Description */}
-                    <p style={{ textAlign: 'center', marginBottom: '20px' }}>
-                        Salem, famous for its historical significance, draws countless visitors yearly. Our app, Salem Circle, aims to enhance the city experience. It will feature "Events" - social gathering for entertainment, exploration, and community engagement.
+            </div>
+            {/* Salem Circle Description */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ flex: 1 }}>
+                    <p style={{ textAlign: 'left', marginBottom: '20px' }}>
+                        Salem, famous for its historical significance, draws countless visitors yearly. Our app, Salem Circle, aims to enhance the city experience. It will feature "Events" - social gatherings for entertainment, exploration, and community engagement.
                     </p>
+                </div>
+                <div style={{ flex: 1 }}>
+                    <img src="/salem.png" alt="Salem" className="salem" width="300" height="400" />
+                </div>
+                
             </div>
         </div>
     );
 };
 
 export default HomePage;
+
+
+
+
+
 
 
 
