@@ -1,44 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
-const PRIMARY_COLOR = "#cc5c99";
-const SECONDARY_COLOR = "#0c0c1f";
+const PRIMARY_COLOR = "black";
+const SECONDARY_COLOR = "#FFFFE0"; // Light yellow background color
 const url = "http://localhost:8083/user/signup";
 const Register = () => {
   const [data, setData] = useState({ username: "", email: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const [light, setLight] = useState(false);
-  const [bgColor, setBgColor] = useState(SECONDARY_COLOR);
-  const [bgText, setBgText] = useState("Light Mode");
 
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]: input.value });
   };
-
-  useEffect(() => {
-    if (light) {
-      setBgColor("white");
-      setBgText("Dark mode");
-    } else {
-      setBgColor(SECONDARY_COLOR);
-      setBgText("Light mode");
-    }
-  }, [light]);
 
   let labelStyling = {
     color: PRIMARY_COLOR,
     fontWeight: "bold",
     textDecoration: "none",
   };
-  let backgroundStyling = { background: bgColor };
+  let backgroundStyling = { background: SECONDARY_COLOR };
   let buttonStyling = {
     background: PRIMARY_COLOR,
     borderStyle: "none",
-    color: bgColor,
+    color: SECONDARY_COLOR,
   };
 
   const handleSubmit = async (e) => {
@@ -68,18 +55,28 @@ const Register = () => {
             style={backgroundStyling}
           >
             <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+              <h2 style={{textAlign: 'center', color: PRIMARY_COLOR}}>Welcome to Salem Circle Sign Up Page</h2> {/* Title added */}
+              {/* Additional content */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '100px' }}>
+                <div style={{ flex: 1 }}>
+                    <img src="/logo.png" alt="Logo" className="logo" width="250" height="250" />
+                </div>
+                <div style={{ flex: 1 }}>
+                    <p style={{ textAlign: 'left', marginBottom: '20px' }}>
+                        Salem, famous for its historical significance, draws countless visitors yearly. Our app, Salem Circle, aims to enhance the city experience. It will feature "Events" - social gatherings for entertainment, exploration, and community engagement.
+                    </p>
+                </div>
+              </div>
               <Form>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                  <Form.Label style={labelStyling}>Username</Form.Label>
+                  <Form.Label style={labelStyling}>Full Name</Form.Label>
                   <Form.Control
-                    type="username"
-                    name="username"
+                    type="full name"
+                    name="full name"
                     onChange={handleChange}
-                    placeholder="Enter username"
+                    placeholder="Enter full name"
                   />
-                  <Form.Text className="text-muted">
-                    We just might sell your data
-                  </Form.Text>
+                  
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                   <Form.Label style={labelStyling}>Email</Form.Label>
@@ -89,9 +86,7 @@ const Register = () => {
                     onChange={handleChange}
                     placeholder="Enter Email Please"
                   />
-                  <Form.Text className="text-muted">
-                    We just might sell your data
-                  </Form.Text>
+                  
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                   <Form.Label style={labelStyling}>Password</Form.Label>
@@ -102,23 +97,6 @@ const Register = () => {
                     onChange={handleChange}
                   />
                 </Form.Group>
-                <div class="form-check form-switch">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    id="flexSwitchCheckDefault"
-                    onChange={() => {
-                      setLight(!light);
-                    }}
-                  />
-                  <label
-                    class="form-check-label"
-                    for="flexSwitchCheckDefault"
-                    className="text-muted"
-                  >
-                    {bgText}
-                  </label>
-                </div>
                 {error && (
                   <div style={labelStyling} className="pt-3">
                     {error}
@@ -131,7 +109,7 @@ const Register = () => {
                   style={buttonStyling}
                   className="mt-2"
                 >
-                  Register
+                  Sign Up
                 </Button>
               </Form>
             </div>
@@ -143,3 +121,8 @@ const Register = () => {
 };
 
 export default Register;
+
+
+
+
+
