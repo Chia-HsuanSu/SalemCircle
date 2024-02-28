@@ -28,6 +28,9 @@ router.post('/signup', async (req, res) => {
         username: username,
         email: email,
         password: hashPassword,
+        fullName: '',
+        role: 'user', 
+        profileImagePath: ''
     });
 
    

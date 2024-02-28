@@ -16,6 +16,7 @@ const favEvent = require('./routes/favoriteEvents')
 const createComment = require('./routes/commentCreateComment');
 const getAllComment = require('./routes/commentGetAllComment');
 const editComment = require('./routes/commentEditComment');
+const uploadProfilePicture = require('./routes/uploadProfilePic');
 
 
 
@@ -39,6 +40,7 @@ app.use('/favorites', favEvent)
 app.use('/comment', createComment )
 app.use('/comment', getAllComment )
 app.use('/comment', editComment )
+app.use('/user', express.static(uploadProfilePicture))
 app.listen(SERVER_PORT, (req, res) => {
     console.log(`The backend service is running on port ${SERVER_PORT} and waiting for requests.`);
 })

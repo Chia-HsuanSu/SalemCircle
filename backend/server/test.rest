@@ -23,17 +23,21 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:8081/user/editUser
+POST http://localhost:8083/user/editUser
 Content-Type: application/json 
 
 {
-    "userId" : "635ab8dfc407faf9f73deaf2",
-    "username" : "Tochi Edit",
-    "password" : "dwwrwr"
+    "userId" : "65deb326ab5690e838eaa5d4",
+    "username" : "JuniorAdmin",
+    "email" : "Junior18@hotmail.com",
+    "password" : "12345789",
+    "fullName" : "Jun",
+    "role" : "admin"
+
 }
 
 ###
-GET  http://localhost:8081/user/getUserById
+GET  http://localhost:8083/user/getUserById
 Content-Type: application/json 
 
 {
