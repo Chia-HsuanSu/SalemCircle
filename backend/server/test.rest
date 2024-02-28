@@ -30,9 +30,9 @@ Content-Type: application/json
     "userId" : "65deb326ab5690e838eaa5d4",
     "username" : "JuniorAdmin",
     "email" : "Junior18@hotmail.com",
-    "password" : "12345789",
+    "password" : "01020304j",
     "fullName" : "Jun",
-    "role" : "admin"
+    "role" : "Admin"
 
 }
 

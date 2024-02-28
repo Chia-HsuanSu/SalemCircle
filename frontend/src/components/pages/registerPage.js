@@ -71,8 +71,8 @@ const Register = () => {
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                   <Form.Label style={labelStyling}>Full Name</Form.Label>
                   <Form.Control
-                    type="full name"
-                    name="full name"
+                    type="username"
+                    name="username"
                     onChange={handleChange}
                     placeholder="Enter full name"
                   />
