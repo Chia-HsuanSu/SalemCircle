@@ -17,7 +17,7 @@ const createComment = require('./routes/commentCreateComment');
 const getAllComment = require('./routes/commentGetAllComment');
 const editComment = require('./routes/commentEditComment');
 const uploadProfilePicture = require('./routes/uploadProfilePic');
-
+const userGetRole = require('./routes/userGetRole');
 
 
 require('dotenv').config();
@@ -30,6 +30,7 @@ app.use('/user', loginRoute)
 app.use('/user', registerRoute)
 app.use('/user', getAllUsersRoute)
 app.use('/user', getUserByIdRoute)
+app.use('/user', userGetRole)
 app.use('/user', editUser)
 app.use('/user', deleteUser)
 app.use('/event', createEvent)

@@ -26,7 +26,7 @@ router.post('/editUser', async (req, res) =>
     // parse the generated hash into the password
     const hashPassword = await bcrypt.hash(password, generateHash)
 
-    // Conditionally add name and/or  if provided
+    // Conditionally add name and/or role if provided
     let updateObject = { username, email, password: hashPassword };
     if (fullName !== undefined) updateObject.fullName = fullName; 
     if (role !== undefined) updateObject.role = role; 

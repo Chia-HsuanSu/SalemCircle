@@ -5,6 +5,7 @@ const { userLoginValidation } = require('../models/userValidator')
 const newUserModel = require('../models/userModel')
 const bcrypt = require('bcrypt')
 const { generateAccessToken } = require('../utilities/generateToken')
+const jwt = require('jsonwebtoken');
 
 
 router.post('/login', async (req, res) => {
@@ -34,7 +35,7 @@ router.post('/login', async (req, res) => {
       .send({ message: "email or password does not exists, try again" });
 
   //create json web token if authenticated and send it back to client in header where it is stored in localStorage ( might not be best practice )
-  const accessToken = generateAccessToken(user._id, user.email, user.username, user.password)
+  const accessToken = generateAccessToken(user._id, user.email, user.username, user.password, user.role)
 
   res.header('Authorization', accessToken).send({ accessToken: accessToken })
 })
