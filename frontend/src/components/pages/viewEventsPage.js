@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Card } from 'react-bootstrap';
 
 const ViewEventsPage = () => {
     const [events, setEvents] = useState([]);
@@ -21,13 +22,15 @@ const ViewEventsPage = () => {
             <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>View Events</h2>
             <div className="events-list" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
                 {events.map(event => (
-                    <div key={event._id} className="event-card" style={{ border: '1px solid #ccc', borderRadius: '5px', margin: '10px', padding: '10px', width: '300px' }}>
-                        <h3 style={{ textAlign: 'center', marginBottom: '10px' }}>{event.eventName}</h3>
-                        <p>{event.description}</p>
-                        <p><strong>Location:</strong> {event.location}</p>
-                        <p><strong>Time:</strong> {new Date(event.dateTime).toLocaleString()}</p>
-                        <p><strong>Capacity:</strong> {event.capacity}</p>
-                    </div>
+                    <Card key={event._id} className="event-card" style={{ border: '1px solid #ccc', borderRadius: '5px', margin: '10px', padding: '10px', width: '300px' }}>
+                        <Card.Body>
+                            <Card.Title style={{ textAlign: 'center', marginBottom: '10px' }}>{event.eventName}</Card.Title>
+                            <Card.Text>{event.description}</Card.Text>
+                            <Card.Text><strong>Location:</strong> {event.location}</Card.Text>
+                            <Card.Text><strong>Time:</strong> {new Date(event.dateTime).toLocaleString()}</Card.Text>
+                            <Card.Text><strong>Capacity:</strong> {event.capacity}</Card.Text>
+                        </Card.Body>
+                    </Card>
                 ))}
             </div>
         </div>
@@ -35,5 +38,6 @@ const ViewEventsPage = () => {
 };
 
 export default ViewEventsPage;
+
 
 
