@@ -5,8 +5,8 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import getUserInfo from "../../utilities/decodeJwt";
 
-const PRIMARY_COLOR = "#cc5c99";
-const SECONDARY_COLOR = '#0c0c1f'
+const PRIMARY_COLOR = "Black";
+const SECONDARY_COLOR = '#eaf7ee'
 const url = "http://localhost:8083/user/login";
 
 const Login = () => {
@@ -80,6 +80,8 @@ const Login = () => {
             className="row d-flex justify-content-center align-items-center h-100 "
             style={backgroundStyling}>
             <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+            <h2 style={{ color: PRIMARY_COLOR, textAlign: "center" }}>Salem Circle Sign In Page</h2>
+              <img src="/logo.png" alt="Logo" className="logo" width="250" height="250" />
               <Form>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                   <Form.Label style={labelStyling}>Username</Form.Label>
