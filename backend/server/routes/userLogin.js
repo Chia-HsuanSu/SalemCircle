@@ -37,7 +37,7 @@ router.post('/login', async (req, res) => {
   //create json web token if authenticated and send it back to client in header where it is stored in localStorage ( might not be best practice )
   const accessToken = generateAccessToken(user._id, user.email, user.username, user.password, user.role)
 
-  res.header('Authorization', accessToken).send({ accessToken: accessToken })
+  res.header('Authorization', accessToken).send({ accessToken: accessToken, userId: user._id })
 })
 
 module.exports = router;

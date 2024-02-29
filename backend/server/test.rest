@@ -41,7 +41,7 @@ GET  http://localhost:8083/user/getUserById
 Content-Type: application/json 
 
 {
-    "userId" : "634edb2a16710b2cda6fb370"
+    "userId" : "65def11d931b1a05f0938782"
 }
 
 ###
