@@ -5,20 +5,20 @@ const bcrypt = require("bcrypt");
 
 const newUserModel = require("../models/userModel");
 
-router.get("/getUserById", async (req, res) => {
-  var { userId } = req.body;
+router.get("/getUserById/:userId", async (req, res) => {
+  const userId = req.params.userId;
 
-  newUserModel.findById(userId, function (err, user) {
-    if (err) {
-      console.log(err);
+  try {
+    const user = await newUserModel.findById(userId);
+    if (!user) {
+      return res.status(404).send("userId does not exist.");
     }
-    if (user==null) {
-      res.status(404).send("userId does not exist.");
-    } 
-    else {
-      return res.json(user);
-    }
-  });
+    return res.json(user);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Server error");
+  }
 });
+
 
 module.exports = router;

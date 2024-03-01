@@ -37,12 +37,9 @@ Content-Type: application/json
 }
 
 ###
-GET  http://localhost:8083/user/getUserById
+GET  http://localhost:8083/user/getUserById/65def11d931b1a05f0938782
 Content-Type: application/json 
 
-{
-    "userId" : "65def11d931b1a05f0938782"
-}
 
 ###
 POST  http://localhost:8081/user/deleteAll
