@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Card } from 'react-bootstrap';
+import { Card, Form, Button, Modal } from 'react-bootstrap';
 
 const ViewEventsPage = () => {
     const [events, setEvents] = useState([]);
+    const [commentText, setCommentText] = useState('');
+    const [selectedEvent, setSelectedEvent] = useState(null);
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -17,6 +20,31 @@ const ViewEventsPage = () => {
         fetchEvents();
     }, []);
 
+    const handleCommentSubmit = async (eventId) => {
+        try {
+            await axios.post(`http://localhost:8083/comment/create`, {
+                eventId: eventId,
+                text: commentText,
+                // Assuming user information is available in your authentication state
+                user: 'ExampleUser'
+            });
+            // Optionally, you can fetch updated event data after submitting the comment
+            // and update the state to reflect the changes.
+        } catch (error) {
+            console.error('Error submitting comment:', error);
+        }
+    };
+
+    const openModal = (event) => {
+        setSelectedEvent(event);
+        setShowModal(true);
+    };
+
+    const closeModal = () => {
+        setSelectedEvent(null);
+        setShowModal(false);
+    };
+
     return (
         <div className="view-events-container" style={{ backgroundColor: 'lightblue', minHeight: '100vh', padding: '20px' }}>
             <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>View Events</h2>
@@ -29,15 +57,57 @@ const ViewEventsPage = () => {
                             <Card.Text><strong>Location:</strong> {event.location}</Card.Text>
                             <Card.Text><strong>Time:</strong> {new Date(event.dateTime).toLocaleString()}</Card.Text>
                             <Card.Text><strong>Capacity:</strong> {event.capacity}</Card.Text>
+                            <Button variant="primary" onClick={() => openModal(event)}>View Event Details</Button>
                         </Card.Body>
                     </Card>
                 ))}
             </div>
+            <EventModal
+                show={showModal}
+                handleClose={closeModal}
+                event={selectedEvent}
+                commentText={commentText}
+                setCommentText={setCommentText}
+                handleCommentSubmit={handleCommentSubmit}
+            />
         </div>
     );
 };
 
+const EventModal = ({ show, handleClose, event, commentText, setCommentText, handleCommentSubmit }) => {
+    return (
+        <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+                <Modal.Title>{event && event.eventName}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                {event && (
+                    <>
+                        <p>{event.description}</p>
+                        <p><strong>Location:</strong> {event.location}</p>
+                        <p><strong>Time:</strong> {new Date(event.dateTime).toLocaleString()}</p>
+                        <p><strong>Capacity:</strong> {event.capacity}</p>
+                        <Form onSubmit={(e) => { e.preventDefault(); handleCommentSubmit(event._id) }}>
+                            <Form.Group controlId="formComment">
+                                <Form.Label>Add a comment:</Form.Label>
+                                <Form.Control as="textarea" rows={3} value={commentText} onChange={(e) => setCommentText(e.target.value)} />
+                            </Form.Group>
+                            <Button variant="primary" type="submit">Submit</Button>
+                        </Form>
+                    </>
+                )}
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>Close</Button>
+            </Modal.Footer>
+        </Modal>
+    );
+};
+
 export default ViewEventsPage;
+
+
+
 
 
 
