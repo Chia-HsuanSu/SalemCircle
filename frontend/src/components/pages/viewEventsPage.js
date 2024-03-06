@@ -7,6 +7,7 @@ const ViewEventsPage = () => {
     const [commentText, setCommentText] = useState('');
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [allComments, setAllComments] = useState([]);
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -22,7 +23,7 @@ const ViewEventsPage = () => {
 
     const handleCommentSubmit = async (eventId) => {
         try {
-            await axios.post(`http://localhost:8083/comment/create`, {
+            await axios.post(`http://localhost:8083/comment/comments`, {
                 eventId: eventId,
                 text: commentText,
                 // Assuming user information is available in your authentication state
@@ -45,6 +46,15 @@ const ViewEventsPage = () => {
         setShowModal(false);
     };
 
+    const handleAllComments = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8083/comment/getAllcomments`);
+            setAllComments(response.data);
+        } catch (error) {
+            console.error('Error fetching comments:', error);
+        }
+    };
+
     return (
         <div className="view-events-container" style={{ backgroundColor: 'lightblue', minHeight: '100vh', padding: '20px' }}>
             <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>View Events</h2>
@@ -57,7 +67,7 @@ const ViewEventsPage = () => {
                             <Card.Text><strong>Location:</strong> {event.location}</Card.Text>
                             <Card.Text><strong>Time:</strong> {new Date(event.dateTime).toLocaleString()}</Card.Text>
                             <Card.Text><strong>Capacity:</strong> {event.capacity}</Card.Text>
-                            <Button variant="primary" onClick={() => openModal(event)}>View Event Details</Button>
+                            <Button variant="primary" onClick={() => openModal(event)}>View More Details</Button>
                         </Card.Body>
                     </Card>
                 ))}
@@ -69,12 +79,14 @@ const ViewEventsPage = () => {
                 commentText={commentText}
                 setCommentText={setCommentText}
                 handleCommentSubmit={handleCommentSubmit}
+                handleAllComments={handleAllComments}
+                allComments={allComments}
             />
         </div>
     );
 };
 
-const EventModal = ({ show, handleClose, event, commentText, setCommentText, handleCommentSubmit }) => {
+const EventModal = ({ show, handleClose, event, commentText, setCommentText, handleCommentSubmit, handleAllComments, allComments }) => {
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
@@ -93,7 +105,15 @@ const EventModal = ({ show, handleClose, event, commentText, setCommentText, han
                                 <Form.Control as="textarea" rows={3} value={commentText} onChange={(e) => setCommentText(e.target.value)} />
                             </Form.Group>
                             <Button variant="primary" type="submit">Submit</Button>
+                            <Button variant="primary" onClick={handleAllComments}>All Comments</Button>
                         </Form>
+                        <hr />
+                        <h4>All Comments</h4>
+                        <ul>
+                            {allComments.map(comment => (
+                                <li key={comment._id}>{comment.text} - by {comment.user}</li>
+                            ))}
+                        </ul>
                     </>
                 )}
             </Modal.Body>
@@ -105,6 +125,7 @@ const EventModal = ({ show, handleClose, event, commentText, setCommentText, han
 };
 
 export default ViewEventsPage;
+
 
 
 
