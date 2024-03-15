@@ -1,23 +1,28 @@
 const express = require('express');
 const router = express.Router();
-const Event = require('../models/EventModel');
+const Event = require('../models/EventModel'); 
 
 // Edit event route
 router.put('/edit/:eventId', async (req, res) => {
+  const { eventId } = req.params;
+  const updatedEvent = req.body;
+
   try {
-    const { eventId } = req.params;
-    const updatedEvent = req.body;
+    const updateResult = await Event.updateEvent(eventId, updatedEvent);
 
-    // Call the updateEvent method from the Event model
-    const success = await Event.updateEvent(eventId, updatedEvent);
-
-    if (success) {
-      res.status(200).json({ message: 'Event updated successfully' });
+    if (updateResult.success) {
+      res.status(200).json({ message: updateResult.message });
     } else {
-      res.status(404).json({ message: 'Event not found or not modified' });
+      // If event was not found, send a 404 response
+      if (updateResult.message === 'Event not found') {
+        res.status(404).json({ message: updateResult.message });
+      } else {
+        // If the event was found but not modified...
+        res.status(200).json({ message: updateResult.message, eventData: updateResult.data });
+      }
     }
   } catch (error) {
-    console.error(error);
+    console.error(error); // Log the error for debugging
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });

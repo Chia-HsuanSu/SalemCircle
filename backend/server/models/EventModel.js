@@ -38,20 +38,28 @@ const eventSchema = new mongoose.Schema(
 
   { collection: "events" }
 );
+eventSchema.index({ eventId: 1 }, { unique: true });
 
 //method for updating/editing events
 eventSchema.statics.updateEvent = async function (eventId, updatedEvent) {
   try {
-    const result = await this.updateOne({ eventId }, updatedEvent);
+    const existingEvent = await this.findOne({ eventId: eventId });
+    if (!existingEvent) {
+      return { success: false, message: 'Event not found' };
+    }
+
+    const result = await this.findOneAndUpdate({ eventId: eventId }, { $set: updatedEvent }, { new: true, runValidators: true });
     if (result.nModified > 0) {
-      return true; // At least one document was modified
+      return { success: true, message: 'Event updated successfully' };
     } else {
-      return false; // No documents were modified (eventId not found)
+      return { success: false, message: 'Event updated successfully', data: existingEvent };
     }
   } catch (error) {
+    console.error(`Failed to update event: ${error.message}`);
     throw new Error(`Failed to update event: ${error.message}`);
   }
 };
+
 // Delete event method
 eventSchema.statics.deleteEvent = async function (eventId) {
   try {
