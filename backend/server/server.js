@@ -18,6 +18,7 @@ const getAllComment = require('./routes/commentGetAllComment');
 const editComment = require('./routes/commentEditComment');
 const uploadProfilePicture = require('./routes/uploadProfilePic');
 const userGetRole = require('./routes/userGetRole');
+const getEventById = require('./routes/eventById');
 
 
 require('dotenv').config();
@@ -37,6 +38,7 @@ app.use('/event', createEvent)
 app.use('/event', getAllEvents)
 app.use('/event', editEvent)
 app.use('/event', deleteEvent)
+app.use('/event', getEventById)
 app.use('/favorites', favEvent)
 app.use('/comment', createComment )
 app.use('/comment', getAllComment )

@@ -48,15 +48,18 @@ POST  http://localhost:8081/user/deleteAll
 GET  http://localhost:8083/event/all
 
 ###
-PUT http://localhost:8083/event/edit/299
+PUT http://localhost:8083/event/edit/738
 Content-Type: application/json
 
 {
-  "eventName": "ooo",
-  "description": "Edit again2",
+  "eventName": "Editing ",
+  "description": "Testing the event edit",
   "dateTime": "2024-01-25T12:00:00Z",
   "capacity": 100
 }
+###
+GET http://localhost:8083/event/details/738
+
 
 ### // Creating favorite with specific eventID and UserId (objectIDs)
 POST http://localhost:8083/favorites/add
