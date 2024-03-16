@@ -4,6 +4,12 @@ const Event = require('../models/EventModel');
 
 // Fetch event by custom eventId
 router.get('/details/:eventId', async (req, res) => {
+ 
+  res.set({
+    'Cache-Control': 'no-store',
+    'Pragma': 'no-cache'
+  });
+  
   try {
     const { eventId } = req.params;
     const event = await Event.findOne({ eventId: eventId });
