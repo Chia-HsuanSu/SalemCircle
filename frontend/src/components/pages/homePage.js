@@ -4,6 +4,7 @@ import getUserInfo from '../../utilities/decodeJwt';
 
 const HomePage = () => {
     const [user, setUser] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
     const navigate = useNavigate();
 
     const handleClick = (e) => {
@@ -26,6 +27,17 @@ const HomePage = () => {
         }
     }, [navigate]);
 
+    const handleInputChange = (e) => {
+        setSearchQuery(e.target.value); // Update search query state with the input value
+    };
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        if (searchQuery.trim() !== '') {
+            navigate(`/event-details/${encodeURIComponent(searchQuery)}`); // Navigate to event details page with search query as event ID
+        }
+    };
+
     if (!user) {
         return (
             <div className="home-container" style={{ backgroundColor: 'lightblue', height: '100vh' }}>
@@ -34,13 +46,14 @@ const HomePage = () => {
         );
     }
 
-    const { id, email, username } = user;
-
     return (
         <div className="home-container" style={{ backgroundColor: 'lightblue', height: '100vh' }}>
             <div className="header">
                 <div className="top-buttons" style={{ display: 'flex', justifyContent: 'center' }}>
-                    <input type="text" placeholder="Search Events" className="search-bar" style={{ marginRight: '10px', height: '50px' }} />
+                    <form onSubmit={handleSearch} style={{ marginRight: '10px' }}>
+                        <input type="text" placeholder="Search Events" className="search-bar" style={{ marginRight: '10px', height: '50px' }} value={searchQuery} onChange={handleInputChange} />
+                        <button type="submit" style={{ display: 'none' }}></button>
+                    </form>
                     <button style={{ marginRight: '10px', width: '100px', height: '50px' }}>Contact Us</button>
                     <img src="/logo.png" alt="Logo" className="logo" width="200" height="100" />
                     <button style={{ marginRight: '10px', width: '100px', height: '50px' }}>My Favorites</button>
@@ -65,6 +78,9 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
+
+
 
 
 

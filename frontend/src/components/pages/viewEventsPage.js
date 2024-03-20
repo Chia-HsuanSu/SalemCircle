@@ -109,11 +109,17 @@ const EventModal = ({ show, handleClose, event, commentText, setCommentText, han
                         </Form>
                         <hr />
                         <h4>All Comments</h4>
-                        <ul>
+                        <div>
                             {allComments.map(comment => (
-                                <li key={comment._id}>{comment.text} - by {comment.user}</li>
+                                <Card key={comment._id} style={{ marginBottom: '10px' }}>
+                                    <Card.Body>
+                                        <Card.Text>{comment.text}</Card.Text>
+                                        <Card.Text>Posted by: {comment.user}</Card.Text>
+                                        <Card.Text>Posted at: {new Date(comment.timestamp).toLocaleString()}</Card.Text>
+                                    </Card.Body>
+                                </Card>
                             ))}
-                        </ul>
+                        </div>
                     </>
                 )}
             </Modal.Body>
@@ -125,6 +131,7 @@ const EventModal = ({ show, handleClose, event, commentText, setCommentText, han
 };
 
 export default ViewEventsPage;
+
 
 
 
