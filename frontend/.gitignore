@@ -22,3 +22,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 uploads/
+
+# Google Cloud service account key
+C:\Users\junio\Downloads\salemcircle-dc6f6f175411.json

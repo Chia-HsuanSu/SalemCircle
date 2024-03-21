@@ -34,6 +34,7 @@ const newUserSchema = new mongoose.Schema(
       type: String,
       required: false, 
       label: "Profile Image Path",
+      default: 'https://storage.googleapis.com/salem-circle/profile-pic/DefaulProfilePic.png'
     },
     date: {
       type: Date,

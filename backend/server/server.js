@@ -22,6 +22,7 @@ const getEventById = require('./routes/eventById');
 
 
 require('dotenv').config();
+console.log(process.env.GOOGLE_APPLICATION_CREDENTIALS);
 const SERVER_PORT = 8083
 
 dbConnection()
