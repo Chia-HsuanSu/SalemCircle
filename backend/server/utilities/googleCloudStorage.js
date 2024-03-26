@@ -9,13 +9,21 @@ const storage = new Storage();
  * @param {string} filePath - The local path to the file.
  * @param {string} destFileName - The destination filename in the bucket.
  * @param {string} bucketName - The name of the Google Cloud Storage bucket.
+ * @returns {Promise<string>} The public URL of the uploaded file.
  */
 async function uploadFile(filePath, destFileName, bucketName = 'salem-circle') {
-  await storage.bucket(bucketName).upload(filePath, {
-    destination: destFileName,
-  });
+  try {
+    await storage.bucket(bucketName).upload(filePath, {
+      destination: destFileName,
+     
+    });
+    console.log(`${filePath} uploaded to ${bucketName}`); 
 
-  console.log(`${filePath} uploaded to ${bucketName}`);
+    return `https://storage.googleapis.com/${bucketName}/${encodeURIComponent(destFileName)}`;
+  } catch (error) {
+    console.error('Error uploading file to Google Cloud Storage:', error);
+    throw error; 
+  }
 }
 
 module.exports = { uploadFile };

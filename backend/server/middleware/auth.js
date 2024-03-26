@@ -9,13 +9,13 @@ const authenticateToken = (req, res, next) => {
     return res.sendStatus(401); // If no token, return unauthorized
   }
 
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
     if (err) {
       return res.sendStatus(403); // If token is not valid, return forbidden
     }
 
     // Token is valid, attach user info to request
-    req.user = user;
+    req.user = {_id: decoded.id};
     next(); // Proceed to the next middleware or request handler
   });
 };

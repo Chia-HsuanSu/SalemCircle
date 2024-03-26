@@ -23,6 +23,7 @@ const newUserSchema = new mongoose.Schema(
       type: String,
       required: false, 
       label: "fullName",
+      default: "",
     },
     role: {
       type: String,
@@ -34,7 +35,7 @@ const newUserSchema = new mongoose.Schema(
       type: String,
       required: false, 
       label: "Profile Image Path",
-      default: 'https://storage.googleapis.com/salem-circle/profile-pic/DefaulProfilePic.png'
+      default: 'https://storage.googleapis.com/salem-circle/profile-pic/DefaulProfilePic.png',
     },
     date: {
       type: Date,
