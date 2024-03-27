@@ -36,7 +36,7 @@ const HomePage = () => {
         e.preventDefault();
         if (searchQuery.trim() !== '') {
             sessionStorage.setItem('eventId', searchQuery); // Store event ID in session storage
-            navigate('/details'); // Navigate to event details page
+            navigate('/details/${searchQuery}'); // Navigate to event details page
         }
     };
 
