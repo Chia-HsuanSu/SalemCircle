@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const EventDetailsPage = ({ eventId }) => {
+const EventDetailsPage = () => {
     const [event, setEvent] = useState(null);
 
     useEffect(() => {
-        const fetchEvent = async () => {
-            try {
-                const response = await axios.get(`http://localhost:8083/event/details/${eventId}`);
-                setEvent(response.data);
-            } catch (error) {
-                console.error('Error fetching event:', error);
-            }
-        };
-        fetchEvent();
-    }, [eventId]);
+        const eventId = sessionStorage.getItem('eventId'); // Retrieve event ID from session storage
+        if (eventId) {
+            const fetchEvent = async () => {
+                try {
+                    const response = await axios.get(`http://localhost:8083/event/details/${eventId}`);
+                    setEvent(response.data);
+                } catch (error) {
+                    console.error('Error fetching event:', error);
+                }
+            };
+            fetchEvent();
+        }
+    }, []);
 
     if (!event) {
         return <div>Loading...</div>;
@@ -32,5 +35,8 @@ const EventDetailsPage = ({ eventId }) => {
 };
 
 export default EventDetailsPage;
+
+
+
 
 
