@@ -87,6 +87,20 @@ const ViewEventsPage = () => {
 };
 
 const EventModal = ({ show, handleClose, event, commentText, setCommentText, handleCommentSubmit, handleAllComments, allComments }) => {
+    const handleJoinEvent = async (eventId) => {
+        // Add your logic to handle joining the event
+        console.log("Joining event:", eventId);
+        // For example, you can make an API call to join the event
+        try {
+            // await axios.post(`http://localhost:8083/event/join`, { eventId });
+            // You can handle success or failure accordingly
+            alert("You have joined the event!");
+        } catch (error) {
+            console.error('Error joining event:', error);
+            alert("Failed to join the event. Please try again later.");
+        }
+    };
+
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
@@ -124,11 +138,13 @@ const EventModal = ({ show, handleClose, event, commentText, setCommentText, han
                 )}
             </Modal.Body>
             <Modal.Footer>
+                <Button variant="primary" onClick={() => handleJoinEvent(event._id)}>Join Event</Button>
                 <Button variant="secondary" onClick={handleClose}>Close</Button>
             </Modal.Footer>
         </Modal>
     );
 };
+
 
 export default ViewEventsPage;
 
