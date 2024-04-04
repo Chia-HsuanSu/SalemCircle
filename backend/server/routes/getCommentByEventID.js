@@ -2,15 +2,16 @@ const express = require('express');
 const router = express.Router();
 const Comment = require('../models/commentModel');
 
-// Fetch comments for a specific event
-router.get('/comments/event/:eventId', async (req, res) => {
+router.get('/event/:eventId', async (req, res) => {
   try {
-    const { eventId } = req.params; // Extract eventId from URL parameters
-    const comments = await Comment.find({ eventId: eventId }).sort({ createdAt: -1 }); // Newest comments first
-    res.status(200).json(comments); // Send the found comments back to the client
+    const { eventId } = req.params;
+    const comments = await Comment.find({ eventId: eventId })
+                                  .populate('user', 'username fullName profileImagePath') // Now includes fullName and profileImagePath
+                                  .sort({ createdAt: -1 }); // Sort comments in reverse chronological order
+    res.json(comments);
   } catch (error) {
-    console.error('Error fetching comments for event:', error);
-    res.status(500).json({ error: 'Internal Server Error' }); // Handle any errors that occur during the process
+    console.error(error); // It's a good practice to log the error for debugging.
+    res.status(500).json({ message: 'Internal server error', error });
   }
 });
 

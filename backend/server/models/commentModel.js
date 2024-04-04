@@ -12,7 +12,8 @@ const commentSchema = new mongoose.Schema(
       required: true,
     },
     user: {
-      type: String,  // Assuming a simple username for the user
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: "users",  
       required: true,
     },
   },

@@ -96,3 +96,5 @@ Content-Type: application/json
   "userId": "65bd15ee2205efdd8fed43b0"
   
 }
+###
+GET http://localhost:8083/comments/event/65dd5c10dc4843cfa528aa4f

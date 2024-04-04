@@ -15,6 +15,7 @@ const deleteEvent = require('./routes/eventDeleteEvents')
 const favEvent = require('./routes/favoriteEvents')
 const createComment = require('./routes/commentCreateComment');
 const getAllComment = require('./routes/commentGetAllComment');
+const getCommentByEvent = require('./routes/getCommentByEventID')
 const editComment = require('./routes/commentEditComment');
 const uploadProfilePicture = require('./routes/uploadProfilePic');
 const userGetRole = require('./routes/userGetRole');
@@ -44,6 +45,7 @@ app.use('/event', getEventById)
 app.use('/favorites', favEvent)
 app.use('/comment', createComment )
 app.use('/comment', getAllComment )
+app.use('/comments', getCommentByEvent)
 app.use('/comment', editComment )
 app.use('/user', uploadProfilePicture)
 app.use('/api/user', userParticipateRouter);
