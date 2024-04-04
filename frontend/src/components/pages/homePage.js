@@ -1,23 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import getUserInfo from '../../utilities/decodeJwt';
-import EventDetailsPage from './eventDetailPage'; 
 
 const HomePage = () => {
     const [user, setUser] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
+    const [eventId, setEventId] = useState(''); // Add state for eventId
     const navigate = useNavigate();
-
-    const handleClick = (e) => {
-        e.preventDefault();
-        localStorage.removeItem('accessToken');
-        navigate('/');
-    };
-
-    const handleMyEventsClick = (e) => {
-        e.preventDefault();
-        navigate('/viewEventsPage'); // Navigate to ViewEventsPage when My Events button is clicked
-    };
 
     useEffect(() => {
         const userInfo = getUserInfo();
@@ -35,9 +25,32 @@ const HomePage = () => {
     const handleSearch = (e) => {
         e.preventDefault();
         if (searchQuery.trim() !== '') {
+            setEventId(searchQuery); // Update eventId state with the searchQuery
             sessionStorage.setItem('eventId', searchQuery); // Store event ID in session storage
-            navigate('/details/${searchQuery}'); // Navigate to event details page
+            navigate(`/details/${searchQuery}`); // Navigate to event details page
         }
+    };
+
+    const handleJoinEvent = async () => { // Remove eventId parameter
+        try {
+            await axios.post('/api/user/participate', { eventId, userId: user.userId }); // Pass eventId from state
+            alert('You have joined the event successfully!');
+            // Optionally, you can update the state or perform any other actions after joining the event
+        } catch (error) {
+            console.error('Error joining event:', error);
+            alert('Failed to join the event. Please try again later.');
+        }
+    };
+
+    const handleClick = (e) => {
+        e.preventDefault();
+        localStorage.removeItem('accessToken');
+        navigate('/');
+    };
+
+    const handleMyEventsClick = (e) => {
+        e.preventDefault();
+        navigate('/viewEventsPage'); // Navigate to ViewEventsPage when My Events button is clicked
     };
 
     if (!user) {
@@ -52,12 +65,10 @@ const HomePage = () => {
         <div className="home-container" style={{ backgroundColor: 'lightblue', height: '100vh' }}>
             <div className="header">
                 <div className="top-buttons" style={{ display: 'flex', justifyContent: 'center' }}>
-               
-                <form onSubmit={handleSearch}>
-                <input type="text" placeholder="Search Events" value={searchQuery} onChange={handleInputChange} />
-                <button type="submit">Search</button>
-                </form>
-
+                    <form onSubmit={handleSearch}>
+                        <input type="text" placeholder="Search Events" value={searchQuery} onChange={handleInputChange} />
+                        <button type="submit">Search</button>
+                    </form>
                     <button style={{ marginRight: '10px', width: '100px', height: '50px' }}>Contact Us</button>
                     <img src="/logo.png" alt="Logo" className="logo" width="200" height="100" />
                     <button style={{ marginRight: '10px', width: '100px', height: '50px' }}>My Favorites</button>
@@ -75,14 +86,17 @@ const HomePage = () => {
                 <div style={{ flex: 1 }}>
                     <img src="/salem.png" alt="Salem" className="salem" width="300" height="400" />
                 </div>
-                
             </div>
-            <EventDetailsPage />
+            <div>
+                <button onClick={handleJoinEvent}>Join Event</button> {/* Remove eventId from onClick */}
+            </div>
         </div>
     );
 };
 
 export default HomePage;
+
+
 
 
 

@@ -1,15 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Card, Form, Button, Modal } from 'react-bootstrap';
+import getUserInfo from '../../utilities/decodeJwt';
 
 const ViewEventsPage = () => {
+    const [user, setUser] = useState(null);
+    const [eventId, setEventId] = useState(''); 
     const [events, setEvents] = useState([]);
     const [commentText, setCommentText] = useState('');
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [allComments, setAllComments] = useState([]);
 
+   
+
     useEffect(() => {
+        const userInfo = getUserInfo();
+        setUser(userInfo);
+
         const fetchEvents = async () => {
             try {
                 const response = await axios.get('http://localhost:8083/event/all');
@@ -35,6 +43,8 @@ const ViewEventsPage = () => {
             console.error('Error submitting comment:', error);
         }
     };
+   
+    
 
     const openModal = (event) => {
         setSelectedEvent(event);
@@ -81,25 +91,36 @@ const ViewEventsPage = () => {
                 handleCommentSubmit={handleCommentSubmit}
                 handleAllComments={handleAllComments}
                 allComments={allComments}
+                user={user} 
             />
         </div>
     );
 };
 
-const EventModal = ({ show, handleClose, event, commentText, setCommentText, handleCommentSubmit, handleAllComments, allComments }) => {
+const EventModal = ({ show, handleClose, event, commentText, setCommentText, handleCommentSubmit, handleAllComments, allComments, user }) => {
     const handleJoinEvent = async (eventId) => {
-        // Add your logic to handle joining the event
-        console.log("Joining event:", eventId);
-        // For example, you can make an API call to join the event
         try {
-            // await axios.post(`http://localhost:8083/event/join`, { eventId });
-            // You can handle success or failure accordingly
-            alert("You have joined the event!");
+            // Make an API call to join the event
+            const response = await axios.post('http://localhost:8083/api/user/participate', { eventId, userId: user.id });
+            
+            // Check if the API call was successful
+            if (response.status === 200) {
+                // Optionally, you can update the state or perform any other actions after joining the event
+                console.log('You have joined the event successfully!');
+                alert('You have joined the event successfully!');
+            } else {
+                // Handle the case where the API call was not successful
+                console.error('Failed to join the event:', response.data);
+                alert('Failed to join the event. Please try again later.');
+            }
         } catch (error) {
+            // Handle any errors that occur during the API call
             console.error('Error joining event:', error);
-            alert("Failed to join the event. Please try again later.");
+            alert('Failed to join the event. Please try again later.');
         }
     };
+    
+    
 
     return (
         <Modal show={show} onHide={handleClose}>

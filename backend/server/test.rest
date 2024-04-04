@@ -86,3 +86,13 @@ GET http://localhost:8083/favorites/user/63d29626a71c78631383d8d4
 
 ### //Delete using Favorite's objectID
 DELETE http://localhost:8083/favorites/delete/65bcb0fbe2c3192bb6bba60e
+
+### // Creating Join with specific eventID and UserId (objectIDs)
+POST http://localhost:8083/api/user/participate
+Content-Type: application/json
+
+{
+  "eventId": "65bc752a1d45e2a75b08f1a4",
+  "userId": "65bd15ee2205efdd8fed43b0"
+  
+}
