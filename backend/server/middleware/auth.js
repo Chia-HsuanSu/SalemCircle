@@ -15,7 +15,7 @@ const authenticateToken = (req, res, next) => {
     }
 
     // Token is valid, attach user info to request
-    req.user = {_id: decoded.id};
+    req.user = decoded;
     next(); // Proceed to the next middleware or request handler
   });
 };
