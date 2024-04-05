@@ -17,6 +17,7 @@ const createComment = require('./routes/commentCreateComment');
 const getAllComment = require('./routes/commentGetAllComment');
 const getCommentByEvent = require('./routes/getCommentByEventID')
 const editComment = require('./routes/commentEditComment');
+const deleteComment = require('./routes/commentDeleteComments')
 const uploadProfilePicture = require('./routes/uploadProfilePic');
 const userGetRole = require('./routes/userGetRole');
 const getEventById = require('./routes/eventById');
@@ -47,6 +48,7 @@ app.use('/comment', createComment )
 app.use('/comment', getAllComment )
 app.use('/comments', getCommentByEvent)
 app.use('/comment', editComment )
+app.use('/comment', deleteComment)
 app.use('/user', uploadProfilePicture)
 app.use('/api/user', userParticipateRouter);
 app.listen(SERVER_PORT, (req, res) => {
