@@ -28,7 +28,7 @@ router.post('/profile-picture', authenticateToken, upload.single('profilePicture
         return res.status(400).send({ message: 'No file uploaded.' });
       }
     try {
-        const userId = req.user._id; 
+        const userId = req.user.id; 
         const filePath = req.file.path;
         const destFileName = `profile-pictures/${userId}-${Date.now()}${path.extname(req.file.originalname)}`; // Ensures unique filenames
         

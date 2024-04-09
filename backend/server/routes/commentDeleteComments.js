@@ -16,13 +16,13 @@ router.delete('/delete/:commentId', authenticateToken, async (req, res) => {
         }
 
         // Fetch the user's role to check if they're an admin
-        const user = await User.findById(req.user._id);
+        const user = await User.findById(req.user.id);
         if (!user) {
             return res.status(403).json({ message: 'User not found' });
         }
 
         // Check if the user is the comment owner or an admin
-        if (comment.user.toString() === req.user._id || user.role === 'admin') {
+        if (comment.user.toString() === req.user.id || user.role === 'admin') {
             await Comment.deleteOne({ _id: commentId });
             res.json({ message: 'Comment deleted successfully' });
         } else {
