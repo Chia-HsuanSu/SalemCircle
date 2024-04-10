@@ -22,6 +22,7 @@ const uploadProfilePicture = require('./routes/uploadProfilePic');
 const userGetRole = require('./routes/userGetRole');
 const getEventById = require('./routes/eventById');
 const userParticipateRouter = require('./routes/userParticipate');
+const userLeaveEvent = require('./routes/userLeaveEvent')
 
 
 require('dotenv').config();
@@ -51,6 +52,7 @@ app.use('/comment', editComment )
 app.use('/comment', deleteComment)
 app.use('/user', uploadProfilePicture)
 app.use('/api/user', userParticipateRouter);
+app.use('/api/user', userLeaveEvent)
 app.listen(SERVER_PORT, (req, res) => {
     console.log(`The backend service is running on port ${SERVER_PORT} and waiting for requests.`);
 })
