@@ -21,6 +21,12 @@ router.post('/participate', async (req, res) => {
             return res.status(400).json({ message: 'User is already a participant in the event' });
         }
 
+        // Check if the event has reached its capacity
+        if (event.participants.length >= event.capacity) {
+            return res.status(400).json({ message: 'Event has reached its capacity' });
+        }
+
+
         // Add the user's ID to the participants array
         event.participants.push(userId);
 
