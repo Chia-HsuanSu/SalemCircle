@@ -3,15 +3,21 @@ import axios from 'axios';
 import { Card, Form, Button, Modal } from 'react-bootstrap';
 import getUserInfo from '../../utilities/decodeJwt';
 
-
 const ViewEventsPage = () => {
+    const [user, setUser] = useState(null);
+    const [eventId, setEventId] = useState(''); 
     const [events, setEvents] = useState([]);
     const [commentText, setCommentText] = useState('');
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [allComments, setAllComments] = useState([]);
 
+   
+
     useEffect(() => {
+        const userInfo = getUserInfo();
+        setUser(userInfo);
+
         const fetchEvents = async () => {
             try {
                 const response = await axios.get('http://localhost:8083/event/all');
@@ -24,30 +30,21 @@ const ViewEventsPage = () => {
     }, []);
 
     const handleCommentSubmit = async (eventId) => {
-        const userInfo = getUserInfo();
-    
-         if (!userInfo) {
-             console.error('No user info available. User might not be logged in.');
-             return;
-          }
-    
-        const userId = userInfo.id;
-
         try {
             await axios.post(`http://localhost:8083/comment/comments`, {
-                eventId,
+                eventId: eventId,
                 text: commentText,
                 // Assuming user information is available in your authentication state
-                user: userId
+                user: 'ExampleUser'
             });
-            setCommentText('')
-            handleAllComments();
             // Optionally, you can fetch updated event data after submitting the comment
             // and update the state to reflect the changes.
         } catch (error) {
             console.error('Error submitting comment:', error);
         }
     };
+   
+    
 
     const openModal = (event) => {
         setSelectedEvent(event);
@@ -94,25 +91,36 @@ const ViewEventsPage = () => {
                 handleCommentSubmit={handleCommentSubmit}
                 handleAllComments={handleAllComments}
                 allComments={allComments}
+                user={user} 
             />
         </div>
     );
 };
 
-const EventModal = ({ show, handleClose, event, commentText, setCommentText, handleCommentSubmit, handleAllComments, allComments }) => {
+const EventModal = ({ show, handleClose, event, commentText, setCommentText, handleCommentSubmit, handleAllComments, allComments, user }) => {
     const handleJoinEvent = async (eventId) => {
-        // Add your logic to handle joining the event
-        console.log("Joining event:", eventId);
-        // For example, you can make an API call to join the event
         try {
-            // await axios.post(`http://localhost:8083/event/join`, { eventId });
-            // You can handle success or failure accordingly
-            alert("You have joined the event!");
+            // Make an API call to join the event
+            const response = await axios.post('http://localhost:8083/api/user/participate', { eventId, userId: user.id });
+            
+            // Check if the API call was successful
+            if (response.status === 200) {
+                // Optionally, you can update the state or perform any other actions after joining the event
+                console.log('You have joined the event successfully!');
+                alert('You have joined the event successfully!');
+            } else {
+                // Handle the case where the API call was not successful
+                console.error('Failed to join the event:', response.data);
+                alert('Failed to join the event. Please try again later.');
+            }
         } catch (error) {
+            // Handle any errors that occur during the API call
             console.error('Error joining event:', error);
-            alert("Failed to join the event. Please try again later.");
+            alert('Failed to join the event. Please try again later.');
         }
     };
+    
+    
 
     return (
         <Modal show={show} onHide={handleClose}>
@@ -141,8 +149,8 @@ const EventModal = ({ show, handleClose, event, commentText, setCommentText, han
                                 <Card key={comment._id} style={{ marginBottom: '10px' }}>
                                     <Card.Body>
                                         <Card.Text>{comment.text}</Card.Text>
-                                        <Card.Text>Posted by: {comment.user.username}</Card.Text>
-                                        <Card.Text>Posted at: {new Date(comment.createdAt).toLocaleString()}</Card.Text>
+                                        <Card.Text>Posted by: {comment.user}</Card.Text>
+                                        <Card.Text>Posted at: {new Date(comment.timestamp).toLocaleString()}</Card.Text>
                                     </Card.Body>
                                 </Card>
                             ))}
