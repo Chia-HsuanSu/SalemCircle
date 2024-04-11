@@ -53,6 +53,10 @@ const HomePage = () => {
         navigate('/viewEventsPage'); // Navigate to ViewEventsPage when My Events button is clicked
     };
 
+    const handleJoinEventList = async () => {
+        navigate('/myEventsPage'); // Add your logic for joining an event
+    };
+
     if (!user) {
         return (
             <div className="home-container" style={{ backgroundColor: 'lightblue', height: '100vh' }}>
@@ -73,6 +77,7 @@ const HomePage = () => {
                     <img src="/logo.png" alt="Logo" className="logo" width="200" height="100" />
                     <button style={{ marginRight: '10px', width: '100px', height: '50px' }}>My Favorites</button>
                     <button onClick={handleMyEventsClick} style={{ marginRight: '10px', width: '100px', height: '50px' }}>My Events</button>
+                    <button onClick={handleJoinEventList} style={{ marginRight: '10px', width: '100px', height: '50px' }}>Show My Events</button>
                     <button onClick={handleClick} style={{ width: '100px', height: '50px' }}>Log Out</button>
                 </div>
             </div>
