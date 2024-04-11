@@ -10,6 +10,7 @@ const editUser = require('./routes/userEditUser')
 const deleteUser = require('./routes/userDeleteAll')
 const createEvent = require('./routes/eventCreateEvents');
 const getAllEvents = require('./routes/eventGetAllEvents')
+const userGetJoinedEvents = require('./routes/userGetJoinedEvents');
 const editEvent = require('./routes/eventEditEvents');
 const deleteEvent = require('./routes/eventDeleteEvents')
 const favEvent = require('./routes/favoriteEvents')
@@ -39,6 +40,7 @@ app.use('/user', getUserByIdRoute)
 app.use('/user', userGetRole)
 app.use('/user', editUser)
 app.use('/user', deleteUser)
+app.use('/api', userGetJoinedEvents)
 app.use('/event', createEvent)
 app.use('/event', getAllEvents)
 app.use('/event', editEvent)
