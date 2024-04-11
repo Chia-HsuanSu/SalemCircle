@@ -1,11 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const Favorite = require('../models/favoriteModel');
+const { authenticateToken } = require('../middleware/auth'); 
 
-// add favorite route
-router.post('/add', async (req, res) => {
+// Add favorite route
+router.post('/add', authenticateToken, async (req, res) => {
   try {
     const { userId, eventId } = req.body;
+    
+   // check if the userId from token matches the userId from body
+    if (req.user.id !== userId) {
+      return res.status(403).json({ error: "Unauthorized action" });
+    }
 
     // Create a new favorite
     const newFavorite = new Favorite({ user: userId, event: eventId });
@@ -18,9 +24,13 @@ router.post('/add', async (req, res) => {
 });
 
 // Get all favorites for a user route
-router.get('/user/:userId', async (req, res) => {
+router.get('/user/:userId', authenticateToken, async (req, res) => {
   try {
     const { userId } = req.params;
+
+    if (req.user.id !== userId) {
+      return res.status(403).json({ error: "Unauthorized action" });
+    }
 
     // Find all favorites for the user and populate the event details
     const favorites = await Favorite.find({ user: userId }).populate('event');
@@ -32,9 +42,13 @@ router.get('/user/:userId', async (req, res) => {
 });
 
 // Remove a favorite by userId and eventId
-router.delete('/remove', async (req, res) => {
+router.delete('/remove', authenticateToken, async (req, res) => {
   try {
     const { userId, eventId } = req.body;
+
+    if (req.user.id !== userId) {
+      return res.status(403).json({ error: "Unauthorized action" });
+    }
 
     const result = await Favorite.findOneAndDelete({ user: userId, event: eventId });
     if (result) {
@@ -60,6 +74,5 @@ router.get('/count/:eventId', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
 
 module.exports = router;
