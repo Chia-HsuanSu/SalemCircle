@@ -7,11 +7,9 @@ const MyFavoritesPage = () => {
     const [favorites, setFavorites] = useState([]);
 
     useEffect(() => {
-        // Fetch favorites from the server or local storage
         const fetchFavorites = async () => {
             try {
-                // Example API call to fetch favorites
-                const response = await axios.get('http://localhost:8083/api/user/favorites');
+                const response = await axios.get('http://localhost:8083/favorites'); // Updated API endpoint
                 setFavorites(response.data);
             } catch (error) {
                 console.error('Error fetching favorites:', error);
@@ -21,13 +19,10 @@ const MyFavoritesPage = () => {
         fetchFavorites();
     }, []);
 
-    // Function to remove an event from favorites
-    const removeFromFavorites = async (eventId) => {
+    const removeFromFavorites = async (favoriteId) => {
         try {
-            // Example API call to remove event from favorites
-            await axios.delete(`http://localhost:8083/api/user/favorites/${eventId}`);
-            // Update favorites state after removal
-            setFavorites(favorites.filter(favorite => favorite._id !== eventId));
+            await axios.delete(`http://localhost:8083/favorites/${favoriteId}`); // Updated API endpoint
+            setFavorites(favorites.filter(favorite => favorite._id !== favoriteId));
         } catch (error) {
             console.error('Error removing from favorites:', error);
         }
@@ -40,11 +35,11 @@ const MyFavoritesPage = () => {
                 {favorites.map(favorite => (
                     <Card key={favorite._id} className="favorite-card" style={{ border: '1px solid #ccc', borderRadius: '5px', margin: '10px', padding: '10px', width: '300px' }}>
                         <Card.Body>
-                            <Card.Title style={{ textAlign: 'center', marginBottom: '10px' }}>{favorite.eventName}</Card.Title>
-                            <Card.Text>{favorite.description}</Card.Text>
-                            <Card.Text><strong>Location:</strong> {favorite.location}</Card.Text>
-                            <Card.Text><strong>Time:</strong> {new Date(favorite.dateTime).toLocaleString()}</Card.Text>
-                            <Card.Text><strong>Capacity:</strong> {favorite.capacity}</Card.Text>
+                            <Card.Title style={{ textAlign: 'center', marginBottom: '10px' }}>{favorite.event.eventName}</Card.Title> {/* Updated property access */}
+                            <Card.Text>{favorite.event.description}</Card.Text> {/* Updated property access */}
+                            <Card.Text><strong>Location:</strong> {favorite.event.location}</Card.Text> {/* Updated property access */}
+                            <Card.Text><strong>Time:</strong> {new Date(favorite.event.dateTime).toLocaleString()}</Card.Text> {/* Updated property access */}
+                            <Card.Text><strong>Capacity:</strong> {favorite.event.capacity}</Card.Text> {/* Updated property access */}
                             <Button variant="danger" onClick={() => removeFromFavorites(favorite._id)}>Remove from Favorites</Button>
                         </Card.Body>
                     </Card>
@@ -58,3 +53,4 @@ const MyFavoritesPage = () => {
 };
 
 export default MyFavoritesPage;
+

@@ -14,6 +14,7 @@ import getUserInfo from "./utilities/decodeJwt";
 import ViewEventsPage from "./components/pages/viewEventsPage";
 import EventDetailsPage from "./components/pages/eventDetailPage";
 import MyEventsPage from "./components/pages/myEventsPage";
+import MyFavoritesPage from "./components/pages/myFavoritesPage";
 
 export const UserContext = createContext();
 //test change
@@ -38,6 +39,7 @@ const App = () => {
           <Route path="/viewEventsPage" element={<ViewEventsPage/>} />
           <Route path="/details/:eventId" element={<EventDetailsPage/>} />
           <Route path="/myEventsPage" element={<MyEventsPage/>} />
+          <Route path="/myFavoritesPage" element={<MyFavoritesPage/>} />
 
           
           
