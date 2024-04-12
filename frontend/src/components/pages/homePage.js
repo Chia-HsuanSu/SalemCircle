@@ -76,7 +76,7 @@ const HomePage = () => {
                     <button style={{ marginRight: '10px', width: '100px', height: '50px' }}>Contact Us</button>
                     <img src="/logo.png" alt="Logo" className="logo" width="200" height="100" />
                     <button style={{ marginRight: '10px', width: '100px', height: '50px' }}>My Favorites</button>
-                    <button onClick={handleMyEventsClick} style={{ marginRight: '10px', width: '100px', height: '50px' }}>My Events</button>
+                    <button onClick={handleMyEventsClick} style={{ marginRight: '10px', width: '100px', height: '50px' }}>Events</button>
                     <button onClick={handleJoinEventList} style={{ marginRight: '10px', width: '100px', height: '50px' }}>Show My Events</button>
                     <button onClick={handleClick} style={{ width: '100px', height: '50px' }}>Log Out</button>
                 </div>
