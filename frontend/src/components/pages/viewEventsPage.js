@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Card, Form, Button, Modal } from 'react-bootstrap';
 import getUserInfo from '../../utilities/decodeJwt';
+import { BsFillStarFill } from 'react-icons/bs';
+
 
 const ViewEventsPage = () => {
     const [user, setUser] = useState(null);
@@ -77,6 +79,7 @@ const ViewEventsPage = () => {
                             <Card.Text><strong>Location:</strong> {event.location}</Card.Text>
                             <Card.Text><strong>Time:</strong> {new Date(event.dateTime).toLocaleString()}</Card.Text>
                             <Card.Text><strong>Capacity:</strong> {event.capacity}</Card.Text>
+                            <Button variant="warning" style={{ borderRadius: '50%', padding: '10px', position: 'absolute', top: '10px', right: '10px' }}><BsFillStarFill size={20} /></Button>
                             <Button variant="primary" onClick={() => openModal(event)}>View More Details</Button>
                         </Card.Body>
                     </Card>
@@ -168,7 +171,6 @@ const EventModal = ({ show, handleClose, event, commentText, setCommentText, han
 
 
 export default ViewEventsPage;
-
 
 
 
