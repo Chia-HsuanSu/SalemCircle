@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 
 const LandingPage = () => {
     return (
-        <div className="home-container" style={{ backgroundColor: 'lightblue', height: '100vh' }}>
+        <div className="home-container" style={{ backgroundColor: 'white', height: '100vh', marginTop: '50px'  }}>
             <div className="header">
                 <div className="top-buttons" style={{ display: 'flex', justifyContent: 'center' }}>
                     <input type="text" placeholder="Search Events" className="search-bar" style={{ marginRight: '10px', height: '50px' }} />
-                    <button style={{ marginRight: '10px', width: '100px', height: '50px' }}>Contact Us</button>
-                    <img src="/logo.png" alt="Logo" className="logo" width="200" height="100" />
+                    
+                    <img src="/logo.png" alt="Logo" className="logo" width="200" height="100" style={{ marginRight: '10px' }} />
                     <Link to="/signup" style={{ marginRight: '10px', textDecoration: 'none' }}>
                         <button style={{ width: '100px', height: '50px' }}>Sign Up</button>
                     </Link>
@@ -19,7 +19,7 @@ const LandingPage = () => {
             </div>
             {/* Salem Circle Description */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <div style={{ flex: 1 }}>
+                <div style={{ flex: 1, marginLeft: '200px'}}>
                     <p style={{ textAlign: 'left', marginBottom: '20px' }}>
                         Salem, famous for its historical significance, draws countless visitors yearly. Our app, Salem Circle, aims to enhance the city experience. It will feature "Events" - social gatherings for entertainment, exploration, and community engagement.
                     </p>

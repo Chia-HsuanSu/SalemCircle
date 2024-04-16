@@ -71,15 +71,15 @@ const HomePage = () => {
     }
 
     return (
-        <div className="home-container" style={{ backgroundColor: 'lightblue', height: '100vh' }}>
+        <div className="home-container" style={{ backgroundColor: 'white', height: '100vh', marginTop: '50px' }}>
             <div className="header">
                 <div className="top-buttons" style={{ display: 'flex', justifyContent: 'center' }}>
-                    <form onSubmit={handleSearch}>
+                <form onSubmit={handleSearch} style={{ marginRight: '10px' }}>
                         <input type="text" placeholder="Search Events" value={searchQuery} onChange={handleInputChange} />
                         <button type="submit">Search</button>
                     </form>
-                    <button style={{ marginRight: '10px', width: '100px', height: '50px' }}>Contact Us</button>
-                    <img src="/logo.png" alt="Logo" className="logo" width="200" height="100" />
+                   
+                    <img src="/logo.png" alt="Logo" className="logo" style={{ marginRight: '10px' }} width="200" height="100" />
                     <button onClick={handleMyFavoritesClick}style={{ marginRight: '10px', width: '100px', height: '50px' }}>My Favorites</button>
                     <button onClick={handleMyEventsClick} style={{ marginRight: '10px', width: '100px', height: '50px' }}>Events</button>
                     <button onClick={handleJoinEventList} style={{ marginRight: '10px', width: '100px', height: '50px' }}>Show My Events</button>
@@ -88,17 +88,17 @@ const HomePage = () => {
             </div>
             {/* Salem Circle Description */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <div style={{ flex: 1 }}>
+                <div style={{ flex: 1, marginLeft: '200px' }}>
                     <p style={{ textAlign: 'left', marginBottom: '20px' }}>
                         Salem, famous for its historical significance, draws countless visitors yearly. Our app, Salem Circle, aims to enhance the city experience. It will feature "Events" - social gatherings for entertainment, exploration, and community engagement.
                     </p>
                 </div>
                 <div style={{ flex: 1 }}>
-                    <img src="/salem.png" alt="Salem" className="salem" width="300" height="400" />
+                    <img src="/salem.png" alt="Salem" className="salem" width="300" height="400" marginRight='100px' />
                 </div>
             </div>
             <div>
-                <button onClick={handleJoinEvent}>Join Event</button> {/* Remove eventId from onClick */}
+        
             </div>
         </div>
     );

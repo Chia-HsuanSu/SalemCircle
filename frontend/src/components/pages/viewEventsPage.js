@@ -68,21 +68,21 @@ const ViewEventsPage = () => {
     };
 
     return (
-        <div className="view-events-container" style={{ backgroundColor: 'lightblue', minHeight: '100vh', padding: '20px' }}>
-            <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>View Events</h2>
-            <div className="events-list" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-                {events.map(event => (
-                    <Card key={event._id} className="event-card" style={{ border: '1px solid #ccc', borderRadius: '5px', margin: '10px', padding: '10px', width: '300px' }}>
-                        <Card.Body>
-                            <Card.Title style={{ textAlign: 'center', marginBottom: '10px' }}>{event.eventName}</Card.Title>
-                            <Card.Text>{event.description}</Card.Text>
-                            <Card.Text><strong>Location:</strong> {event.location}</Card.Text>
-                            <Card.Text><strong>Time:</strong> {new Date(event.dateTime).toLocaleString()}</Card.Text>
-                            <Card.Text><strong>Capacity:</strong> {event.capacity}</Card.Text>
-                            <Button variant="warning" style={{ borderRadius: '50%', padding: '10px', position: 'absolute', top: '10px', right: '10px' }}><BsFillStarFill size={20} /></Button>
-                            <Button variant="primary" onClick={() => openModal(event)}>View More Details</Button>
-                        </Card.Body>
-                    </Card>
+        <div className="view-events-container" style={{ backgroundColor: 'white', minHeight: '100vh', padding: '20px' }}>
+    <h2 style={{ textAlign: 'center', marginBottom: '20px', color: 'black' }}>View Events</h2>
+    <div className="events-list" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+        {events.map(event => (
+            <Card key={event._id} className="event-card" style={{ backgroundColor: 'black', border: '1px solid #ccc', borderRadius: '5px', margin: '10px', padding: '10px', width: '300px' }}>
+                <Card.Body>
+                    <Card.Title style={{ textAlign: 'center', marginBottom: '10px', color: 'white' }}>{event.eventName}</Card.Title>
+                    <Card.Text style={{ color: 'white' }}>{event.description}</Card.Text>
+                    <Card.Text style={{ color: 'white' }}><strong>Location:</strong> {event.location}</Card.Text>
+                    <Card.Text style={{ color: 'white' }}><strong>Time:</strong> {new Date(event.dateTime).toLocaleString()}</Card.Text>
+                    <Card.Text style={{ color: 'white' }}><strong>Capacity:</strong> {event.capacity}</Card.Text>
+                    <Button variant="warning" style={{ borderRadius: '50%', padding: '10px', position: 'absolute', top: '10px', right: '10px' }}><BsFillStarFill size={20} /></Button>
+                    <Button variant="primary" style={{ backgroundColor: 'Orange', color: 'black' }} onClick={() => openModal(event)}>View More Details</Button>
+                </Card.Body>
+            </Card>
                 ))}
             </div>
             <EventModal
