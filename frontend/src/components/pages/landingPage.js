@@ -15,6 +15,9 @@ const LandingPage = () => {
                     <Link to="/login" style={{ marginRight: '10px', textDecoration: 'none' }}>
                         <button style={{ width: '100px', height: '50px' }}>Sign In</button>
                     </Link>
+                    <Link to="/viewEventsPage" style={{ marginRight: '10px', textDecoration: 'none' }}>
+                        <button style={{ width: '100px', height: '50px' }}>Events</button>
+                    </Link>
                 </div>
             </div>
             {/* Salem Circle Description */}
@@ -34,3 +37,4 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
+
