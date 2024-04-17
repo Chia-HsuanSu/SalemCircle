@@ -2,14 +2,22 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import getUserInfo from '../../utilities/decodeJwt';  // Assumed path to your utility function
 
 const MyFavoritesPage = () => {
     const [favorites, setFavorites] = useState([]);
+    const userInfo = getUserInfo();
+    const userId = userInfo ? userInfo.id : null;
 
     useEffect(() => {
         const fetchFavorites = async () => {
+            if (!userId) {
+                console.error('No userId found. Ensure the user is logged in and the token is valid.');
+                return;
+            }
+
             try {
-                const response = await axios.get('http://localhost:8083/favorites');
+                const response = await axios.get(`http://localhost:8083/favorites/user/${userId}`);
                 setFavorites(response.data);
             } catch (error) {
                 console.error('Error fetching favorites:', error);
@@ -17,13 +25,21 @@ const MyFavoritesPage = () => {
         };
 
         fetchFavorites();
-    }, []);
+    }, [userId]);
 
-    const removeFromFavorites = async (favoriteId, eventDetails) => {
+    const removeFromFavorites = async (eventId) => {
+        if (!userId) {
+            console.error('User ID not found');
+            return;
+        }
+
         try {
-            await axios.delete(`http://localhost:8083/favorites/${favoriteId}`);
-            setFavorites(favorites.filter(favorite => favorite._id !== favoriteId));
-            console.log('Removed from favorites:', eventDetails);
+            const response = await axios.delete('http://localhost:8083/favorites/remove', {
+                data: { userId, eventId },
+            });
+            if (response.status === 200) {
+                setFavorites(favorites.filter(favorite => favorite.event._id !== eventId));
+            }
         } catch (error) {
             console.error('Error removing from favorites:', error);
         }
@@ -41,7 +57,7 @@ const MyFavoritesPage = () => {
                             <Card.Text><strong>Location:</strong> {favorite.event.location}</Card.Text>
                             <Card.Text><strong>Time:</strong> {new Date(favorite.event.dateTime).toLocaleString()}</Card.Text>
                             <Card.Text><strong>Capacity:</strong> {favorite.event.capacity}</Card.Text>
-                            <Button variant="danger" onClick={() => removeFromFavorites(favorite._id, favorite.event)}>Remove from Favorites</Button>
+                            <Button variant="danger" onClick={() => removeFromFavorites(favorite.event._id)}>Remove from Favorites</Button>
                         </Card.Body>
                     </Card>
                 ))}
@@ -54,5 +70,3 @@ const MyFavoritesPage = () => {
 };
 
 export default MyFavoritesPage;
-
-
