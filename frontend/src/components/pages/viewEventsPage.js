@@ -1,20 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Card, Form, Button, Modal } from 'react-bootstrap';
+import { Card, Button, Modal, Form } from 'react-bootstrap';
 import getUserInfo from '../../utilities/decodeJwt';
 import { BsFillStarFill } from 'react-icons/bs';
 
-
 const ViewEventsPage = () => {
     const [user, setUser] = useState(null);
-    const [eventId, setEventId] = useState(''); 
     const [events, setEvents] = useState([]);
-    const [commentText, setCommentText] = useState('');
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [commentText, setCommentText] = useState('');
     const [allComments, setAllComments] = useState([]);
-
-   
 
     useEffect(() => {
         const userInfo = getUserInfo();
@@ -45,8 +41,6 @@ const ViewEventsPage = () => {
             console.error('Error submitting comment:', error);
         }
     };
-   
-    
 
     const openModal = (event) => {
         setSelectedEvent(event);
@@ -67,22 +61,31 @@ const ViewEventsPage = () => {
         }
     };
 
+    const addToFavorites = async (eventId) => {
+        try {
+            await axios.post('http://localhost:8083/favorites/add', { userId: user.id, eventId });
+            alert('Event added to favorites!');
+        } catch (error) {
+            console.error('Error adding to favorites:', error);
+        }
+    };
+
     return (
         <div className="view-events-container" style={{ backgroundColor: 'white', minHeight: '100vh', padding: '20px' }}>
-    <h2 style={{ textAlign: 'center', marginBottom: '20px', color: 'black' }}>View Events</h2>
-    <div className="events-list" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-        {events.map(event => (
-            <Card key={event._id} className="event-card" style={{ backgroundColor: 'black', border: '1px solid #ccc', borderRadius: '5px', margin: '10px', padding: '10px', width: '300px' }}>
-                <Card.Body>
-                    <Card.Title style={{ textAlign: 'center', marginBottom: '10px', color: 'white' }}>{event.eventName}</Card.Title>
-                    <Card.Text style={{ color: 'white' }}>{event.description}</Card.Text>
-                    <Card.Text style={{ color: 'white' }}><strong>Location:</strong> {event.location}</Card.Text>
-                    <Card.Text style={{ color: 'white' }}><strong>Time:</strong> {new Date(event.dateTime).toLocaleString()}</Card.Text>
-                    <Card.Text style={{ color: 'white' }}><strong>Capacity:</strong> {event.capacity}</Card.Text>
-                    <Button variant="warning" style={{ borderRadius: '50%', padding: '10px', position: 'absolute', top: '10px', right: '10px' }}><BsFillStarFill size={20} /></Button>
-                    <Button variant="primary" style={{ backgroundColor: 'Orange', color: 'black' }} onClick={() => openModal(event)}>View More Details</Button>
-                </Card.Body>
-            </Card>
+            <h2 style={{ textAlign: 'center', marginBottom: '20px', color: 'black' }}>View Events</h2>
+            <div className="events-list" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+                {events.map(event => (
+                    <Card key={event._id} className="event-card" style={{ backgroundColor: 'black', border: '1px solid #ccc', borderRadius: '5px', margin: '10px', padding: '10px', width: '300px' }}>
+                        <Card.Body>
+                            <Card.Title style={{ textAlign: 'center', marginBottom: '10px', color: 'white' }}>{event.eventName}</Card.Title>
+                            <Card.Text style={{ color: 'white' }}>{event.description}</Card.Text>
+                            <Card.Text style={{ color: 'white' }}><strong>Location:</strong> {event.location}</Card.Text>
+                            <Card.Text style={{ color: 'white' }}><strong>Time:</strong> {new Date(event.dateTime).toLocaleString()}</Card.Text>
+                            <Card.Text style={{ color: 'white' }}><strong>Capacity:</strong> {event.capacity}</Card.Text>
+                            <Button variant="warning" onClick={() => addToFavorites(event._id)} style={{ borderRadius: '50%', padding: '10px', position: 'absolute', top: '10px', right: '10px' }}><BsFillStarFill size={20} /></Button>
+                            <Button variant="primary" style={{ backgroundColor: 'Orange', color: 'black', marginLeft: '10px' }} onClick={() => openModal(event)}>View More Details</Button>
+                        </Card.Body>
+                    </Card>
                 ))}
             </div>
             <EventModal
@@ -94,7 +97,7 @@ const ViewEventsPage = () => {
                 handleCommentSubmit={handleCommentSubmit}
                 handleAllComments={handleAllComments}
                 allComments={allComments}
-                user={user} 
+                user={user}
             />
         </div>
     );
@@ -105,7 +108,7 @@ const EventModal = ({ show, handleClose, event, commentText, setCommentText, han
         try {
             // Make an API call to join the event
             const response = await axios.post('http://localhost:8083/api/user/participate', { eventId, userId: user.id });
-            
+
             // Check if the API call was successful
             if (response.status === 200) {
                 // Optionally, you can update the state or perform any other actions after joining the event
@@ -122,8 +125,6 @@ const EventModal = ({ show, handleClose, event, commentText, setCommentText, han
             alert('Failed to join the event. Please try again later.');
         }
     };
-    
-    
 
     return (
         <Modal show={show} onHide={handleClose}>
@@ -169,12 +170,4 @@ const EventModal = ({ show, handleClose, event, commentText, setCommentText, han
     );
 };
 
-
 export default ViewEventsPage;
-
-
-
-
-
-
-
