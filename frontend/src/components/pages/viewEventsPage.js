@@ -15,11 +15,12 @@ const ViewEventsPage = () => {
     useEffect(() => {
         const userInfo = getUserInfo();
         setUser(userInfo);
-
+    
         const fetchEvents = async () => {
             try {
                 const response = await axios.get('http://localhost:8083/event/all');
                 setEvents(response.data);
+                fetchFavoritesCount(response.data);
             } catch (error) {
                 console.error('Error fetching events:', error);
             }
@@ -61,6 +62,20 @@ const ViewEventsPage = () => {
         }
     };
 
+    const fetchFavoritesCount = async (events) => {
+        try {
+            const counts = {};
+            const promises = events.map(async (event) => {
+                const response = await axios.get(`http://localhost:8083/favorites/count/${event._id}`);
+                counts[event._id] = response.data.count;
+            });
+            await Promise.all(promises);
+            setEvents(events.map(event => ({ ...event, favoritesCount: counts[event._id] || 0 })));
+        } catch (error) {
+            console.error('Error fetching favorite counts:', error);
+        }
+    };
+
     const addToFavorites = async (eventId) => {
         try {
             await axios.post('http://localhost:8083/favorites/add', { userId: user.id, eventId });
@@ -75,17 +90,21 @@ const ViewEventsPage = () => {
             <h2 style={{ textAlign: 'center', marginBottom: '20px', color: 'black' }}>View Events</h2>
             <div className="events-list" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
                 {events.map(event => (
-                    <Card key={event._id} className="event-card" style={{ backgroundColor: 'black', border: '1px solid #ccc', borderRadius: '5px', margin: '10px', padding: '10px', width: '300px' }}>
-                        <Card.Body>
-                            <Card.Title style={{ textAlign: 'center', marginBottom: '10px', color: 'white' }}>{event.eventName}</Card.Title>
-                            <Card.Text style={{ color: 'white' }}>{event.description}</Card.Text>
-                            <Card.Text style={{ color: 'white' }}><strong>Location:</strong> {event.location}</Card.Text>
-                            <Card.Text style={{ color: 'white' }}><strong>Time:</strong> {new Date(event.dateTime).toLocaleString()}</Card.Text>
-                            <Card.Text style={{ color: 'white' }}><strong>Capacity:</strong> {event.capacity}</Card.Text>
-                            <Button variant="warning" onClick={() => addToFavorites(event._id)} style={{ borderRadius: '50%', padding: '10px', position: 'absolute', top: '10px', right: '10px' }}><BsFillStarFill size={20} /></Button>
-                            <Button variant="primary" style={{ backgroundColor: 'Orange', color: 'black', marginLeft: '10px' }} onClick={() => openModal(event)}>View More Details</Button>
-                        </Card.Body>
-                    </Card>
+                    <Card key={event._id} className="event-card" style={{ backgroundColor: 'black', border: '1px solid #ccc', borderRadius: '5px', margin: '10px', padding: '10px', width: '300px', position: 'relative' }}>
+                    <Card.Body>
+                        <Card.Title style={{ textAlign: 'center', marginBottom: '10px', color: 'white' }}>{event.eventName}</Card.Title>
+                        <Card.Text style={{ color: 'white' }}>{event.description}</Card.Text>
+                        <Card.Text style={{ color: 'white' }}><strong>Location:</strong> {event.location}</Card.Text>
+                        <Card.Text style={{ color: 'white' }}><strong>Time:</strong> {new Date(event.dateTime).toLocaleString()}</Card.Text>
+                        <Card.Text style={{ color: 'white' }}><strong>Capacity:</strong> {event.capacity}</Card.Text>
+                        <Button variant="warning" onClick={() => addToFavorites(event._id)} style={{ borderRadius: '50%', padding: '10px', position: 'absolute', top: '10px', right: '10px' }}><BsFillStarFill size={20} /></Button>
+                        <div style={{ color: 'white',  borderRadius: '50%',fontSize: '10px', marginTop: '40px',position: 'absolute',padding: '10px', top: '10px', right: '10px'}}>{event.favoritesCount} Favorites</div>
+                        <Button variant="primary" style={{ backgroundColor: 'Orange', color: 'black', marginTop: '10px' }} onClick={() => openModal(event)}>View More Details</Button>
+                    </Card.Body>
+                </Card>
+                
+                
+                
                 ))}
             </div>
             <EventModal
