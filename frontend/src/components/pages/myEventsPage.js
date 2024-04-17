@@ -92,6 +92,7 @@ const MyEventsPage = () => {
                     <Card.Text style={{ color: 'white' }}><strong>Time:</strong> {new Date(event.dateTime).toLocaleString()}</Card.Text>
                     <Card.Text style={{ color: 'white' }}><strong>Capacity:</strong> {event.capacity}</Card.Text>
                     <Button variant="primary" style={{ backgroundColor: 'orange', color: 'white' }} onClick={() => openModal(event)}>View More Details</Button>
+                    <Button variant="primary" style={{ backgroundColor: 'orange', color: 'white' }} onClick={() => openModal(event)}>Leave the Event</Button>
                 </Card.Body>
             </Card>
                 ))}
