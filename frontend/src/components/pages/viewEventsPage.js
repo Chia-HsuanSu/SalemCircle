@@ -18,7 +18,7 @@ const ViewEventsPage = () => {
     
         const fetchEvents = async () => {
             try {
-                const response = await axios.get('http://localhost:8083/event/all');
+                const response = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URI}/event/all`);
                 setEvents(response.data);
                 fetchFavoritesCount(response.data);
             } catch (error) {
@@ -30,7 +30,7 @@ const ViewEventsPage = () => {
 
     const handleCommentSubmit = async (eventId) => {
         try {
-            await axios.post(`http://localhost:8083/comment/comments`, {
+            await axios.post(`${process.env.REACT_APP_BACKEND_SERVER_URI}/comment/comments`, {
                 eventId: eventId,
                 text: commentText,
                 // Assuming user information is available in your authentication state
@@ -55,7 +55,7 @@ const ViewEventsPage = () => {
 
     const handleAllComments = async () => {
         try {
-            const response = await axios.get(`http://localhost:8083/comment/getAllcomments`);
+            const response = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URI}/comment/getAllcomments`);
             setAllComments(response.data);
         } catch (error) {
             console.error('Error fetching comments:', error);
@@ -66,7 +66,7 @@ const ViewEventsPage = () => {
         try {
             const counts = {};
             const promises = events.map(async (event) => {
-                const response = await axios.get(`http://localhost:8083/favorites/count/${event._id}`);
+                const response = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URI}/favorites/count/${event._id}`);
                 counts[event._id] = response.data.count;
             });
             await Promise.all(promises);
@@ -78,7 +78,7 @@ const ViewEventsPage = () => {
 
     const addToFavorites = async (eventId) => {
         try {
-            await axios.post('http://localhost:8083/favorites/add', { userId: user.id, eventId });
+            await axios.post('${process.env.REACT_APP_BACKEND_SERVER_URI}/favorites/add', { userId: user.id, eventId });
             alert('Event added to favorites!');
         } catch (error) {
             console.error('Error adding to favorites:', error);
@@ -126,7 +126,7 @@ const EventModal = ({ show, handleClose, event, commentText, setCommentText, han
     const handleJoinEvent = async (eventId) => {
         try {
             // Make an API call to join the event
-            const response = await axios.post('http://localhost:8083/api/user/participate', { eventId, userId: user.id });
+            const response = await axios.post('${process.env.REACT_APP_BACKEND_SERVER_URI}/api/user/participate', { eventId, userId: user.id });
 
             // Check if the API call was successful
             if (response.status === 200) {

@@ -6,7 +6,7 @@ import Form from "react-bootstrap/Form";
 
 const PRIMARY_COLOR = "black";
 const SECONDARY_COLOR = "#FFFFE0"; // Light yellow background color
-const url = "http://localhost:8083/user/signup";
+const url = `${process.env.REACT_APP_BACKEND_SERVER_URI}/user/signup`;
 const Register = () => {
   const [data, setData] = useState({ username: "", email: "", password: "" });
   const [error, setError] = useState("");

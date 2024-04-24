@@ -33,7 +33,7 @@ const HomePage = () => {
 
     const handleJoinEvent = async () => { // Remove eventId parameter
         try {
-            await axios.post('/api/user/participate', { eventId, userId: user.userId }); // Pass eventId from state
+            await axios.post(`${process.env.REACT_APP_BACKEND_SERVER_URI}/api/user/participate`, { eventId, userId: user.userId }); // Pass eventId from state
             alert('You have joined the event successfully!');
             // Optionally, you can update the state or perform any other actions after joining the event
         } catch (error) {

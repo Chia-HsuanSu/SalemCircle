@@ -16,16 +16,23 @@ const MyFavoritesPage = () => {
                 return;
             }
 
+            const token = localStorage.getItem('accessToken'); // Retrieve the token from localStorage
+            const headers = {
+                'Authorization': `Bearer ${token}` // Prepare the Authorization header
+            };
+
             try {
-                const response = await axios.get(`http://localhost:8083/favorites/user/${userId}`);
+                const response = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URI}/favorites/user/${userId}`, { headers });
                 setFavorites(response.data);
             } catch (error) {
-                console.error('Error fetching favorites:', error);
+                console.error('Error fetching favorites:', error.response ? error.response.data : error);
             }
         };
 
         fetchFavorites();
     }, [userId]);
+
+
 
     const removeFromFavorites = async (eventId) => {
         if (!userId) {
@@ -33,15 +40,22 @@ const MyFavoritesPage = () => {
             return;
         }
 
+        const token = localStorage.getItem('accessToken'); // Retrieve the token from localStorage
+        const headers = {
+            'Authorization': `Bearer ${token}`, // Prepare the Authorization header
+            'Content-Type': 'application/json' // Specify the content type
+        };
+
         try {
-            const response = await axios.delete('http://localhost:8083/favorites/remove', {
-                data: { userId, eventId },
+            const response = await axios.delete(`${process.env.REACT_APP_BACKEND_SERVER_URI}/favorites/remove`, {
+                headers,
+                data: { userId, eventId }
             });
             if (response.status === 200) {
                 setFavorites(favorites.filter(favorite => favorite.event._id !== eventId));
             }
         } catch (error) {
-            console.error('Error removing from favorites:', error);
+            console.error('Error removing from favorites:', error.response ? error.response.data : error);
         }
     };
 
