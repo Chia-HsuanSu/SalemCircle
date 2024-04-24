@@ -78,10 +78,17 @@ const ViewEventsPage = () => {
 
     const addToFavorites = async (eventId) => {
         try {
-            await axios.post(`${process.env.REACT_APP_BACKEND_SERVER_URI}/favorites/add`, { userId: user.id, eventId });
+            const token = localStorage.getItem('accessToken');  // Retrieve the token from localStorage
+            const headers = {
+                'Authorization': `Bearer ${token}`  // Prepare the Authorization header
+            };
+            await axios.post(`${process.env.REACT_APP_BACKEND_SERVER_URI}/favorites/add`, { userId: user.id, eventId }, { headers });
             alert('Event added to favorites!');
         } catch (error) {
-            console.error('Error adding to favorites:', error);
+            console.error('Error adding to favorites:', error.response ? error.response.data : error);
+            if (error.response && error.response.status === 401) {
+                alert('You must be logged in to add favorites.');
+            }
         }
     };
 
