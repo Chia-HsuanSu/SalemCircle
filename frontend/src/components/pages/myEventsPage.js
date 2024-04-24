@@ -23,7 +23,7 @@ const MyEventsPage = () => {
             }
 
             try {
-                const response = await axios.get(`http://localhost:8083/api/user/events/${userId}`);
+                const response = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URI}/api/user/events/${userId}`);
                 setEvents(response.data);
             } catch (error) {
                 console.error('Error fetching events:', error);
@@ -45,7 +45,7 @@ const MyEventsPage = () => {
         const userId = userInfo.id;
 
         try {
-            await axios.post(`http://localhost:8083/comment/comments`, {
+            await axios.post(`${process.env.REACT_APP_BACKEND_SERVER_URI}/comment/comments`, {
                 eventId,
                 text: commentText,
                 // Assuming user information is available in your authentication state
@@ -72,7 +72,7 @@ const MyEventsPage = () => {
 
     const handleAllComments = async () => {
         try {
-            const response = await axios.get(`http://localhost:8083/comment/getAllcomments`);
+            const response = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URI}/comment/getAllcomments`);
             setAllComments(response.data);
         } catch (error) {
             console.error('Error fetching comments:', error);

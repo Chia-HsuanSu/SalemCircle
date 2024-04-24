@@ -9,7 +9,7 @@ const EventDetailsPage = () => {
         if (eventId) {
             const fetchEvent = async () => {
                 try {
-                    const response = await axios.get(`http://localhost:8083/event/details/${eventId}`);
+                    const response = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URI}/event/details/${eventId}`);
                     setEvent(response.data);
                 } catch (error) {
                     console.error('Error fetching event:', error);

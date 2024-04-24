@@ -12,7 +12,7 @@ const CreateEventPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8083/event/create', {
+            const response = await axios.post(`${process.env.REACT_APP_BACKEND_SERVER_URI}/event/create`, {
                 eventName,
                 description,
                 dateTime,

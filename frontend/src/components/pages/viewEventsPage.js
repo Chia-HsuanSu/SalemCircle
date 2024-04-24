@@ -78,7 +78,7 @@ const ViewEventsPage = () => {
 
     const addToFavorites = async (eventId) => {
         try {
-            await axios.post('${process.env.REACT_APP_BACKEND_SERVER_URI}/favorites/add', { userId: user.id, eventId });
+            await axios.post(`${process.env.REACT_APP_BACKEND_SERVER_URI}/favorites/add`, { userId: user.id, eventId });
             alert('Event added to favorites!');
         } catch (error) {
             console.error('Error adding to favorites:', error);
