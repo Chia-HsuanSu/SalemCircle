@@ -43,10 +43,18 @@ const ViewEventsPage = () => {
         }
     };
 
-    const openModal = (event) => {
-        setSelectedEvent(event);
-        setShowModal(true);
+    const openModalOrRedirect = (event) => {
+        if (user) {
+            // If the user is logged in, open the modal to view more details
+            setSelectedEvent(event);
+            setShowModal(true);
+        } else {
+            // If no user is logged in, prompt them to log in or register
+            alert('Please log in or register to view more details.');
+            // Optionally, redirect to login or registration page
+        }
     };
+    
 
     const closeModal = () => {
         setSelectedEvent(null);
@@ -106,7 +114,7 @@ const ViewEventsPage = () => {
                         <Card.Text style={{ color: 'white' }}><strong>Capacity:</strong> {event.capacity}</Card.Text>
                         <Button variant="warning" onClick={() => addToFavorites(event._id)} style={{ borderRadius: '50%', padding: '10px', position: 'absolute', top: '10px', right: '10px' }}><BsFillStarFill size={20} /></Button>
                         <div style={{ color: 'white',  borderRadius: '50%',fontSize: '10px', marginTop: '40px',position: 'absolute',padding: '10px', top: '10px', right: '10px'}}>{event.favoritesCount} Favorites</div>
-                        <Button variant="primary" style={{ backgroundColor: 'Orange', color: 'black', marginTop: '10px' }} onClick={() => openModal(event)}>View More Details</Button>
+                        <Button variant="primary" style={{ backgroundColor: 'Orange', color: 'black', marginTop: '10px' }} onClick={() => openModalOrRedirect(event)}>View More Details</Button>
                     </Card.Body>
                 </Card>
                 
