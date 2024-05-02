@@ -141,7 +141,7 @@ const EventModal = ({ show, handleClose, event, commentText, setCommentText, han
     const handleJoinEvent = async (eventId) => {
         try {
             // Make an API call to join the event
-            const response = await axios.post('${process.env.REACT_APP_BACKEND_SERVER_URI}/api/user/participate', { eventId, userId: user.id });
+            const response = await axios.post(`${process.env.REACT_APP_BACKEND_SERVER_URI}/api/user/participate`, { eventId, userId: user.id });
 
             // Check if the API call was successful
             if (response.status === 200) {

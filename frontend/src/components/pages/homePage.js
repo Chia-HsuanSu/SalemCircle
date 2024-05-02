@@ -62,6 +62,10 @@ const HomePage = () => {
         navigate('/myFavoritesPage'); // Navigate to MyFavoritesPage when My Favorites button is clicked
     };
 
+    const handleCreateEvent = async () => {
+        navigate('/createEvent'); // Add your logic for joining an event
+    };
+
     if (!user) {
         return (
             <div className="home-container" style={{ backgroundColor: 'lightblue', height: '100vh' }}>
@@ -83,6 +87,7 @@ const HomePage = () => {
                     <button onClick={handleMyFavoritesClick}style={{ marginRight: '10px', width: '100px', height: '50px' }}>My Favorites</button>
                     <button onClick={handleMyEventsClick} style={{ marginRight: '10px', width: '100px', height: '50px' }}>Events</button>
                     <button onClick={handleJoinEventList} style={{ marginRight: '10px', width: '100px', height: '50px' }}>Show My Events</button>
+                    <button onClick={handleCreateEvent} style={{ marginRight: '10px', width: '100px', height: '50px' }}>Create Event</button>
                     <button onClick={handleClick} style={{ width: '100px', height: '50px' }}>Log Out</button>
                 </div>
             </div>
