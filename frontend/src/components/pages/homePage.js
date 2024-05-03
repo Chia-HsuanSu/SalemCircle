@@ -66,6 +66,22 @@ const HomePage = () => {
         navigate('/createEvent'); // Add your logic for joining an event
     };
 
+    const handleDeleteAccount = async () => {
+        if (window.confirm('Are you sure you want to delete your account? This cannot be undone.')) {
+            try {
+                const response = await axios.delete(`${process.env.REACT_APP_BACKEND_SERVER_URI}/admin/delete/${user._id}`);
+                if (response.status === 200) {
+                    localStorage.removeItem('accessToken'); // Clean up local storage
+                    navigate('/landingPage'); // Redirect to landing page after deletion
+                    alert('Account deleted successfully.');
+                }
+            } catch (error) {
+                console.error('Error deleting account:', error);
+                alert('Failed to delete account. Please try again later.');
+            }
+        }
+    };
+
     if (!user) {
         return (
             <div className="home-container" style={{ backgroundColor: 'lightblue', height: '100vh' }}>
@@ -88,7 +104,7 @@ const HomePage = () => {
                     <button onClick={handleMyEventsClick} style={{ marginRight: '10px', width: '100px', height: '50px' }}>Events</button>
                     <button onClick={handleJoinEventList} style={{ marginRight: '10px', width: '100px', height: '50px' }}>Show My Events</button>
                     <button onClick={handleCreateEvent} style={{ marginRight: '10px', width: '100px', height: '50px' }}>Create Event</button>
-                    <button onClick={handleCreateEvent} style={{ marginRight: '10px', width: '100px', height: '50px' }}>Delete Account</button>
+                    <button onClick={handleDeleteAccount} style={{ marginRight: '10px', width: '100px', height: '50px' }}>Delete Account</button>
                     <button onClick={handleClick} style={{ width: '100px', height: '50px' }}>Log Out</button>
                 </div>
             </div>
