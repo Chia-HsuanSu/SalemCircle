@@ -88,6 +88,7 @@ const HomePage = () => {
                     <button onClick={handleMyEventsClick} style={{ marginRight: '10px', width: '100px', height: '50px' }}>Events</button>
                     <button onClick={handleJoinEventList} style={{ marginRight: '10px', width: '100px', height: '50px' }}>Show My Events</button>
                     <button onClick={handleCreateEvent} style={{ marginRight: '10px', width: '100px', height: '50px' }}>Create Event</button>
+                    <button onClick={handleCreateEvent} style={{ marginRight: '10px', width: '100px', height: '50px' }}>Delete Account</button>
                     <button onClick={handleClick} style={{ width: '100px', height: '50px' }}>Log Out</button>
                 </div>
             </div>
