@@ -102,7 +102,7 @@ const ViewEventsPage = () => {
 
     const handleDeleteEvent = async (eventId) => {
         try {
-            const response = await axios.delete(`${process.env.REACT_APP_BACKEND_SERVER_URI}/event/delete/182`);
+            const response = await axios.delete(`${process.env.REACT_APP_BACKEND_SERVER_URI}/event/delete/${eventId}`);
             if (response.status === 200) {
                 alert('Event deleted successfully!');
                 setEvents(events.filter(event => event._id !== eventId));
@@ -213,7 +213,7 @@ const EventModal = ({ show, handleClose, event, commentText, setCommentText, han
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="primary" onClick={() => handleJoinEvent(event._id)}>Join Event</Button>
-                <Button variant="danger" onClick={() => handleDeleteEvent(event._id)}>Delete Event</Button>
+                <Button variant="danger" onClick={() => handleDeleteEvent(event.eventId)}>Delete Event</Button>
                 <Button variant="secondary" onClick={handleClose}>Close</Button>
             </Modal.Footer>
         </Modal>
