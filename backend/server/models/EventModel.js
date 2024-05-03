@@ -31,7 +31,7 @@ const eventSchema = new mongoose.Schema(
     participants: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User", // Reference to the User model
+        ref: "users", // Reference to the User model
       },
     ],
     comments: [

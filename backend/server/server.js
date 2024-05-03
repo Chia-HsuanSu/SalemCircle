@@ -25,6 +25,7 @@ const getEventById = require('./routes/eventById');
 const userParticipateRouter = require('./routes/userParticipate');
 const userLeaveEvent = require('./routes/userLeaveEvent')
 const searchEvent = require('./routes/eventSearchEvent');
+const viewParticipants = require('./routes/viewParticipants')
 
 require('dotenv').config();
 console.log(process.env.GOOGLE_APPLICATION_CREDENTIALS);
@@ -47,6 +48,7 @@ app.use('/event', getAllEvents)
 app.use('/event', editEvent)
 app.use('/event', deleteEvent)
 app.use('/event', getEventById)
+app.use('/event', viewParticipants)
 app.use('/favorites', favEvent)
 app.use('/comment', createComment )
 app.use('/comment', getAllComment )

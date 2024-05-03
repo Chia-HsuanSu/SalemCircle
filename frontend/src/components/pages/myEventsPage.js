@@ -10,6 +10,7 @@ const MyEventsPage = () => {
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [allComments, setAllComments] = useState([]);
+    const [participants, setParticipants] = useState([]);
 
     useEffect(() => {
         const userInfo = getUserInfo();
@@ -62,6 +63,7 @@ const MyEventsPage = () => {
 
     const openModal = (event) => {
         setSelectedEvent(event);
+        fetchParticipants(event._id);
         setShowModal(true);
     };
 
@@ -78,6 +80,16 @@ const MyEventsPage = () => {
             console.error('Error fetching comments:', error);
         }
     };
+    const fetchParticipants = async (eventId) => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URI}/event/${eventId}/participants`);
+            setParticipants(response.data); // Assuming the backend returns an array of participants
+        } catch (error) {
+            console.error('Error fetching participants:', error);
+            setParticipants([]); // Reset or handle errors appropriately
+        }
+    };
+    
 
     return (
         <div className="view-events-container" style={{ backgroundColor: 'white', minHeight: '100vh', padding: '20px' }}>
@@ -106,12 +118,13 @@ const MyEventsPage = () => {
                 handleCommentSubmit={handleCommentSubmit}
                 handleAllComments={handleAllComments}
                 allComments={allComments}
+                participants={participants}
             />
         </div>
     );
 };
 
-const EventModal = ({ show, handleClose, event, commentText, setCommentText, handleCommentSubmit, handleAllComments, allComments }) => {
+const EventModal = ({ show, handleClose, event, commentText, setCommentText, handleCommentSubmit, handleAllComments, allComments, participants }) => {
     const handleJoinEvent = async (eventId) => {
         // Add your logic to handle joining the event
         console.log("Joining event:", eventId);
@@ -124,6 +137,11 @@ const EventModal = ({ show, handleClose, event, commentText, setCommentText, han
             console.error('Error joining event:', error);
             alert("Failed to join the event. Please try again later.");
         }
+    };
+    const [showParticipants, setShowParticipants] = useState(false);
+
+    const toggleParticipants = () => {
+        setShowParticipants(!showParticipants);
     };
 
     return (
@@ -138,6 +156,19 @@ const EventModal = ({ show, handleClose, event, commentText, setCommentText, han
                         <p><strong>Location:</strong> {event.location}</p>
                         <p><strong>Time:</strong> {new Date(event.dateTime).toLocaleString()}</p>
                         <p><strong>Capacity:</strong> {event.capacity}</p>
+                        <Button variant="secondary" onClick={toggleParticipants}>
+                            {showParticipants ? 'Hide Participants' : 'Show Participants'}
+                        </Button>
+                        {showParticipants && (
+                            <div>
+                                <h4>Participants</h4>
+                                <ul>
+                                    {participants.map(participant => (
+                                        <li key={participant._id}>{participant.username}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
                         <Form onSubmit={(e) => { e.preventDefault(); handleCommentSubmit(event._id) }}>
                             <Form.Group controlId="formComment">
                                 <Form.Label>Add a comment:</Form.Label>

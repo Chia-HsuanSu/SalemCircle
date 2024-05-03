@@ -11,6 +11,8 @@ const ViewEventsPage = () => {
     const [showModal, setShowModal] = useState(false);
     const [commentText, setCommentText] = useState('');
     const [allComments, setAllComments] = useState([]);
+    const [participants, setParticipants] = useState([]);
+
 
     useEffect(() => {
         const userInfo = getUserInfo();
@@ -45,15 +47,14 @@ const ViewEventsPage = () => {
 
     const openModalOrRedirect = (event) => {
         if (user) {
-            // If the user is logged in, open the modal to view more details
             setSelectedEvent(event);
+            fetchParticipants(event._id); // Fetch participants when the modal is opened
             setShowModal(true);
         } else {
-            // If no user is logged in, prompt them to log in or register
             alert('Please log in or register to view more details.');
-            // Optionally, redirect to login or registration page
         }
     };
+    
     
 
     const closeModal = () => {
@@ -99,6 +100,16 @@ const ViewEventsPage = () => {
             }
         }
     };
+    const fetchParticipants = async (eventId) => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URI}/event/${eventId}/participants`);
+            setParticipants(response.data); 
+        } catch (error) {
+            console.error('Error fetching participants:', error);
+            setParticipants([]);
+        }
+    };
+    
 
     return (
         <div className="view-events-container" style={{ backgroundColor: 'white', minHeight: '100vh', padding: '20px' }}>
@@ -132,12 +143,13 @@ const ViewEventsPage = () => {
                 handleAllComments={handleAllComments}
                 allComments={allComments}
                 user={user}
+                participants={participants}
             />
         </div>
     );
 };
 
-const EventModal = ({ show, handleClose, event, commentText, setCommentText, handleCommentSubmit, handleAllComments, allComments, user }) => {
+const EventModal = ({ show, handleClose, event, commentText, setCommentText, handleCommentSubmit, handleAllComments, allComments, user, participants }) => {
     const handleJoinEvent = async (eventId) => {
         try {
             // Make an API call to join the event
@@ -159,6 +171,11 @@ const EventModal = ({ show, handleClose, event, commentText, setCommentText, han
             alert('Failed to join the event. Please try again later.');
         }
     };
+    const [showParticipants, setShowParticipants] = useState(false);
+
+    const toggleParticipants = () => {
+        setShowParticipants(!showParticipants);
+    };
 
     return (
         <Modal show={show} onHide={handleClose}>
@@ -172,6 +189,19 @@ const EventModal = ({ show, handleClose, event, commentText, setCommentText, han
                         <p><strong>Location:</strong> {event.location}</p>
                         <p><strong>Time:</strong> {new Date(event.dateTime).toLocaleString()}</p>
                         <p><strong>Capacity:</strong> {event.capacity}</p>
+                        <Button variant="secondary" onClick={toggleParticipants}>
+                            {showParticipants ? 'Hide Participants' : 'Show Participants'}
+                        </Button>
+                        {showParticipants && (
+                            <div>
+                                <h4>Participants</h4>
+                                <ul>
+                                    {participants.map(participant => (
+                                        <li key={participant._id}>{participant.username}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
                         <Form onSubmit={(e) => { e.preventDefault(); handleCommentSubmit(event._id) }}>
                             <Form.Group controlId="formComment">
                                 <Form.Label>Add a comment:</Form.Label>
@@ -193,6 +223,12 @@ const EventModal = ({ show, handleClose, event, commentText, setCommentText, han
                                 </Card>
                             ))}
                         </div>
+                        <h4>Participants</h4>
+                        <ul>
+                            {participants.map(participant => (
+                                <li key={participant._id}>{participant.username}</li>
+                            ))}
+                        </ul>
                     </>
                 )}
             </Modal.Body>
