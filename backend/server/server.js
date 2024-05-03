@@ -7,7 +7,7 @@ const registerRoute = require('./routes/userSignUp')
 const getUserByIdRoute = require('./routes/userGetUserById')
 const dbConnection = require('./config/db.config')
 const editUser = require('./routes/userEditUser')
-const deleteUser = require('./routes/userDeleteAll')
+//const deleteUser = require('./routes/userDeleteAll')
 const createEvent = require('./routes/eventCreateEvents');
 const getAllEvents = require('./routes/eventGetAllEvents')
 const userGetJoinedEvents = require('./routes/userGetJoinedEvents');
@@ -26,6 +26,7 @@ const userParticipateRouter = require('./routes/userParticipate');
 const userLeaveEvent = require('./routes/userLeaveEvent')
 const searchEvent = require('./routes/eventSearchEvent');
 const viewParticipants = require('./routes/viewParticipants')
+const deleteUser = require('./routes/adminDeleteUser');
 
 require('dotenv').config();
 console.log(process.env.GOOGLE_APPLICATION_CREDENTIALS);
@@ -40,7 +41,7 @@ app.use('/user', getAllUsersRoute)
 app.use('/user', getUserByIdRoute)
 app.use('/user', userGetRole)
 app.use('/user', editUser)
-app.use('/user', deleteUser)
+app.use('/admin', deleteUser)
 app.use('/api', userGetJoinedEvents)
 app.use('/event', searchEvent)
 app.use('/event', createEvent)
